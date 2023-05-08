@@ -1,14 +1,20 @@
 #include <iostream>
 using namespace std;
 
+#define ll long long
+
+
 inline int PC = 0;                 // program counter
 inline int registers[32] = {0};    // initial value of all registers is 0
+
+bool within_range(ll decimal, int bits);
+
 
 // R-type   
 void ADD (int rd, int rs1, int rs2);
 void SUB (int rd, int rs1, int rs2);
-void OR (int rd, int rs1, int rs2);
 void AND (int rd, int rs1, int rs2);
+void OR (int rd, int rs1, int rs2);
 void XOR (int rd, int rs1, int rs2);
 void SLL (int rd, int rs1, int rs2);
 void SRL (int rd, int rs1, int rs2);
