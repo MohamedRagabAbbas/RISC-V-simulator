@@ -3,7 +3,7 @@
 ## Overview
 This repo includes the design and implementation of the RISC-V Simulator. The simulator supports the RV32I base integer instruction set according to
 the specifications found here: https://riscv.org/technical/specifications. All forty user-level instructions (listed in
-page 130 of the RISC-V Instruction Set Manual – Volume I: Unprivileged ISA are implemented.
+page 130 of the RISC-V Instruction Set Manual – Volume I: Unprivileged ISA) are implemented.
 
 
 ## Simulation
