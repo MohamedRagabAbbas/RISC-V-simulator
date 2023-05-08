@@ -10,10 +10,10 @@ page 130 of the RISC-V Instruction Set Manual – Volume I: Unprivileged ISA are
 
 ### Inputs
 
-#### Assembly Program
+#### 1)Assembly Program:
 The user should input a program to be simulated by specifying a text file that contains the instructions. The user should also specify the program starting address. The input program is terminated by any of the following 3 instructions: ECALL, EBREAK, and FENCE.
 
-#### Program Data
+#### 2)Program Data:
 The user should specify any data required by the program to be initially loaded in the memory. For each data item, both its value and memory address should be specified. This information should also be provided through a text file.
 
 ### Outputs
