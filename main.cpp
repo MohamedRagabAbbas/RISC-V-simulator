@@ -16,15 +16,20 @@ ifstream InstructionsInput;
 
 // Functions
 
-bool check_address(ll); // checks if first address given by user is within range
+bool check_address(ll); // checks if address is within range
 int find_reg(string); // return a register's position in the array when given its name/number
-string regNumToName(string);
+string regNumToName(string);    // x0 -> zero
 void open_file(string);
-void clean();
-vector<vector<string>> parse(); // transform comma separated string to vector - addi t0, t1, 5 -> [addi,t0,t1,5]
+vector <string> clean();
+vector<vector<string>> parse(vector<string> &); // transform comma separated string to vector - addi t0, t1, 5 -> [addi,t0,t1,5]
+
 void printRegisterContents();
+void printOriginalInstructions();
+void printCleanedInstructions(vector<string> &);
 void printParsedInstructions();
+
 string lowercase(string); // lower-case all instruction words as they are case-insensitive (account for user's choice)
+void remove_spaces(vector<string> &);
 void run_program();
 
 
@@ -43,9 +48,15 @@ int main(){
 //        cin >> address;
 //    }
 //    PC = (int)address;
+    
     open_file(file_name);
-    parsedInstructions = parse();
+    vector<string> cleaned_instructions = clean();
+    parsedInstructions = parse(cleaned_instructions);
+    
+    printOriginalInstructions();
+    printCleanedInstructions(cleaned_instructions);
     printParsedInstructions();
+    
     run_program();
 }
 
@@ -72,35 +83,69 @@ void open_file(string file_name)
     }
 }
 
-void clean(){
-    
-    // remove any blank lines
-    // remove spaces between operands and commas
-    
+void remove_spaces(vector<string> & instructions)
+{
+    vector<string> modified_instructions;
+    string temp = "";
+    for(string s : instructions){
+        for(char c : s){
+            if(c != ' ') temp += c;
+        }
+        modified_instructions.push_back(temp);
+        temp = "";
+    }
+    instructions = modified_instructions;
 }
 
-vector<vector<string>> parse()
+vector<string> clean()
 {
-    vector<vector<string>> parsed;
-    vector<string> single_instruction;
+    vector<string> instructions;
+    string single_instruction = "";
     
     string line, word;
-           
-       while (getline(InstructionsInput, line)){
-           stringstream str(line);
-           getline(str, word, ' ');
-           word = lowercase(word);
-           single_instruction.push_back(word);
-           while (getline(str, word, ',')){
-               single_instruction.push_back(word);
-               }
-           parsed.push_back(single_instruction);
-           single_instruction.clear();
-           }
-    InstructionsInput.close();
-    parsed.pop_back();
     
-    return parsed;
+    while(getline(InstructionsInput,line)){
+        stringstream str(line);
+        getline(str, word, ' ');
+        if(word.size() == 0) continue;
+        word = lowercase(word);
+        single_instruction += word;
+        single_instruction += ',';
+        while(getline(str, word, ',')){
+            single_instruction += word;
+            single_instruction += ',';
+        }
+        instructions.push_back(single_instruction);
+        single_instruction = "";
+    }
+    
+    remove_spaces(instructions);
+    InstructionsInput.close();
+        
+    return instructions;
+}
+
+vector<vector<string>> parse(vector<string> &instructions)
+{
+    vector<vector<string>> parsed_instructions;
+    vector<string> single_instruction;
+    
+    string word = "";
+    for(string s : instructions){
+        for(char c : s){
+            if(c != ','){
+                word += c;
+            }
+            else if(word.size() != 0){
+                single_instruction.push_back(word);
+                word = "";
+            }
+        }
+        parsed_instructions.push_back(single_instruction);
+        single_instruction.clear();
+    }
+    
+    return parsed_instructions;
 }
 
 void run_program(){
@@ -264,9 +309,30 @@ string regNumToName(int i)
     return 0;
 }
 
+void printOriginalInstructions()
+{
+    InstructionsInput.open("/Users/omar_bahgat/Documents/normal/normal/normal/assembly.txt");
+    
+    cout << "\n-------- Original Instructions --------\n\n";
+
+    string line = "";
+    while(getline(InstructionsInput, line)){
+        cout << line << "\n";
+    }
+    InstructionsInput.close();
+}
+
+void printCleanedInstructions(vector<string> &instructions)
+{
+    cout << "\n-------- Cleaned Instructions --------\n\n";
+    for(string s : instructions){
+        cout << s << "\n";
+    }
+}
+
 void printParsedInstructions()
 {
-    cout << "\n--------- Parsed Instructions ---------\n\n";
+    cout << "\n-------- Parsed Instructions --------\n\n";
     for(vector<string> v : parsedInstructions){
         for(string s : v){
             cout << s << " ";
@@ -281,6 +347,9 @@ void printRegisterContents()
     for(int i = 0; i < 32; i++){
         cout << "The content in register x" << i << " (" << regNumToName(i) << "): " << registers[i] << "\n";
     }
+    cout << "-------------------------------------\n";
+    cout << "Program Counter: " << PC << "\n";
+    cout << "-------------------------------------\n";
 }
 
 
