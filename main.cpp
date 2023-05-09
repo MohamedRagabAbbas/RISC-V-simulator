@@ -11,59 +11,113 @@ using namespace std;
 
 // Global Variables
 
-vector<vector<string>> parsedInstructions; // each vector in this 2D vector is an instruction (ex: [addi,t0,t1,5])
-ifstream InstructionsInput;
+map<int,int> memory;                        // {address, value}
+vector<vector<string>> parsedInstructions;  // each vector in this 2D vector is an instruction ( ex: [add,t0,t1,t2] )
+ifstream instructionsInput, memoryInput;
 
-// Functions
+// helper functions
 
 bool check_address(ll); // checks if address is within range
 int find_reg(string); // return a register's position in the array when given its name/number
-string regNumToName(string);    // x0 -> zero
-void open_file(string);
+string regNumToName(int);    // x0 -> zero
+string lowercase(string); // lower-case all instruction words as they are case-insensitive (account for user's choice)
+
+// file handling
+
+void open_file(string, int);
+void remove_spaces(vector<string> &);
 vector <string> clean();
 vector<vector<string>> parse(vector<string> &); // transform comma separated string to vector - addi t0, t1, 5 -> [addi,t0,t1,5]
 
+// printing functions
+
+void printInstruction(vector<string>, int);
 void printRegisterContents();
-void printOriginalInstructions();
-void printCleanedInstructions(vector<string> &);
-void printParsedInstructions();
+void printMemoryContents();
+void printInstructionsTest(vector<string> &);
 
-string lowercase(string); // lower-case all instruction words as they are case-insensitive (account for user's choice)
-void remove_spaces(vector<string> &);
+
 void run_program();
+void initialize_memory();
+//void end_program();
 
 
 
-int main(){
+int main()
+{
     cout << "Welcome to RV32I Simulator!\n";
-    string file_name;
-    cout << "Enter the name of the assembly file with the extension (ex: file.txt): ";
-    cin >> file_name;
-
-//    ll address;
-//    cout << "Enter address of first instruction: ";
-//    cin >> address;
-//    while(!check_address(address)){
-//        cout << "Address not in range. Enter an address between 0 and 2^32 - 1: ";
-//        cin >> address;
-//    }
-//    PC = (int)address;
     
-    open_file(file_name);
+    string assembly_file;
+    cout << "Enter the name of the assembly file with the extension (ex: assembly.txt): ";
+    cin >> assembly_file;
+    open_file(assembly_file, 1);
+    
+    ll address;
+    cout << "Enter the address of the first instruction (non-negative number): ";
+    cin >> address;
+    
+    while(!check_address(address)){
+        cout << "Address not in range. Enter an address between 0 and 2^32 - 1: ";
+        cin >> address;
+    }
+    PC = (int)address;
+    
+    int option;
+    cout << "To load data into the memory press 1, else press 2: ";
+    cin >> option;
+    
+    if(option == 1){
+        string memory_file;
+        cout << "Enter the name of the memory file with the extension (ex: memory.txt): ";
+        cin >> memory_file;
+        open_file(memory_file, 2);
+        initialize_memory();
+    }
+    
     vector<string> cleaned_instructions = clean();
     parsedInstructions = parse(cleaned_instructions);
     
-    printOriginalInstructions();
-    printCleanedInstructions(cleaned_instructions);
-    printParsedInstructions();
+    //printInstructionsTest(cleaned_instructions);
     
     run_program();
 }
 
 bool check_address(ll address)
 {
-    return (address < 0 || address > (1LL << 32) - 1) ? 0 : 1;
+    return (address < 0 || address > ((ll)1 << 32) - 1) ? 0 : 1;
 }
+
+void open_file(string file_name, int option)
+{
+    if(option == 1){
+        instructionsInput.open("/Users/omar_bahgat/Documents/normal/normal/normal/assembly.txt");
+        while(!instructionsInput.is_open()) {
+            cout << "The file\"" << file_name << "\"" << "could not be found" << "\n";
+            cout << "Enter the name of the assembly file with the extension (ex: assembly.txt): ";
+            cin >> file_name;
+        }
+    }
+    
+    else{
+        memoryInput.open("/Users/omar_bahgat/Documents/normal/normal/normal/memory.txt");
+        while(!memoryInput.is_open()) {
+            cout << "The file\"" << file_name << "\"" << "could not be found" << "\n";
+            cout << "Enter the name of the memory file with the extension (ex: memory.txt): ";
+            cin >> file_name;
+        }
+    }
+}
+
+
+void initialize_memory()
+{
+    int address, value;
+    while(memoryInput >> address){
+        memoryInput >> value;
+        memory.insert({address,value});
+    }
+}
+
 
 string lowercase(string s)
 {
@@ -71,16 +125,6 @@ string lowercase(string s)
         s[i] = tolower(s[i]);
     }
     return s;
-}
-
-void open_file(string file_name)
-{
-    InstructionsInput.open("/Users/omar_bahgat/Documents/normal/normal/normal/assembly.txt");
-    while(!InstructionsInput.is_open()) {
-        cout << "Error in opening \"" << file_name << "\"\n";
-        cout << "Enter the name of the assembly file with the extension (ex: file.txt): ";
-        cin >> file_name;
-    }
 }
 
 void remove_spaces(vector<string> & instructions)
@@ -104,7 +148,7 @@ vector<string> clean()
     
     string line, word;
     
-    while(getline(InstructionsInput,line)){
+    while(getline(instructionsInput,line)){
         stringstream str(line);
         getline(str, word, ' ');
         if(word.size() == 0) continue;
@@ -120,7 +164,7 @@ vector<string> clean()
     }
     
     remove_spaces(instructions);
-    InstructionsInput.close();
+    instructionsInput.close();
         
     return instructions;
 }
@@ -150,6 +194,7 @@ vector<vector<string>> parse(vector<string> &instructions)
 
 void run_program(){
     
+    int i = 1;
     for(vector<string> v : parsedInstructions){
         
         if(v[0] == "add"){
@@ -227,7 +272,12 @@ void run_program(){
         else if(v[0] == "sltiu"){
             
         }
+        else if(v[0] == "ecall" || v[0] == "ebreak" || v[0] == "fence"){
+            //end_program();
+        }
+        printInstruction(v, i++);
         printRegisterContents();
+        printMemoryContents();
     }
 }
 
@@ -309,29 +359,23 @@ string regNumToName(int i)
     return 0;
 }
 
-void printOriginalInstructions()
+void printInstructionsTest(vector<string> & cleaned_instructions)
 {
-    InstructionsInput.open("/Users/omar_bahgat/Documents/normal/normal/normal/assembly.txt");
+    instructionsInput.open("/Users/omar_bahgat/Documents/normal/normal/normal/assembly.txt");
     
     cout << "\n-------- Original Instructions --------\n\n";
 
     string line = "";
-    while(getline(InstructionsInput, line)){
+    while(getline(instructionsInput, line)){
         cout << line << "\n";
     }
-    InstructionsInput.close();
-}
-
-void printCleanedInstructions(vector<string> &instructions)
-{
+    instructionsInput.close();
+    
     cout << "\n-------- Cleaned Instructions --------\n\n";
-    for(string s : instructions){
+    for(string s : cleaned_instructions){
         cout << s << "\n";
     }
-}
-
-void printParsedInstructions()
-{
+    
     cout << "\n-------- Parsed Instructions --------\n\n";
     for(vector<string> v : parsedInstructions){
         for(string s : v){
@@ -339,17 +383,48 @@ void printParsedInstructions()
         }
         cout << "\n";
     }
+    cout << "\n-------------------------------------\n\n";
+
+}
+
+void printInstruction(vector<string> v, int i)
+{
+    cout << "Instruction " << i << ": ";
+    
+    if(v.size() == 1){
+        cout << v[0] << "\n\n";
+    }
+    else if(v.size() == 2){
+        cout << v[0] << " " << v[1] << "\n\n";
+    }
+    else if(v.size() == 3){
+        cout << v[0] << " " << v[1] << ", " << v[2] << "\n\n";
+    }
+    else if(v.size() == 4){
+        cout << v[0] << " " << v[1] << ", " << v[2] << ", " << v[3] << "\n\n";
+    }
 }
 
 void printRegisterContents()
 {
-    cout << "\n--------- Register Contents ---------\n\n";
+    cout << "\t\t\t  Registers\n";
+    cout << "----------------------------------------\n";
+    cout << "   Name    |    Number    |    Value    \n";
+    cout << "----------------------------------------\n";
     for(int i = 0; i < 32; i++){
-        cout << "The content in register x" << i << " (" << regNumToName(i) << "): " << registers[i] << "\n";
+        cout << setw(4) << regNumToName(i) << setw(8) << "|";
+        cout << setw(2) << i;
+        cout << setw(13) << "|";
+        cout << registers[i] << "\n";
     }
-    cout << "-------------------------------------\n";
-    cout << "Program Counter: " << PC << "\n";
-    cout << "-------------------------------------\n";
+    cout << "\nProgram Counter: " << PC << "\n\n";
 }
 
-
+void printMemoryContents()
+{
+    cout << "-------- Memory --------\n";
+    for(auto u : memory){
+        cout << "Address: " << u.first << "\t" << "Memory: " << u.second << "\n";
+    }
+    cout << "\n\n";
+}
