@@ -7,13 +7,6 @@ using namespace std;
 
 // MSB is the sign bit so we deal with (bits - 1)
 
-bool within_range(ll decimal, int bits)
-{
-    ll upper_limit = (1 << (bits - 1)) - 1;
-    ll lower_limit = -(1 << (bits - 1));
-    return (decimal > upper_limit || decimal < lower_limit) ? 0 : 1;
-}
-
 // Register 0 can't be changed so if rd is 0, we just return
 
 // R-type
@@ -72,10 +65,11 @@ void SLTU (int rd, int rs1, int rs2)
 void ADDI (int rd, int rs1, int imm)
 {
     if(rd == 0) return;
-    if(!within_range(imm,12)){
+    if(imm > ((1 << 11) - 1) || imm < -(1 << 11)){
         cout << "\"imm\" not in allowed range\n";
         exit(1);
     }
+    
     registers[rd] = registers[rs1] + imm;
     PC += 4;
 }
