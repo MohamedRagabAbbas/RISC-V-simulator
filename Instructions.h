@@ -7,9 +7,6 @@ using namespace std;
 inline int PC = 0;                 // program counter
 inline int registers[32] = {0};    // initial value of all registers is 0
 
-bool within_range(ll decimal, int bits);
-
-
 // R-type   
 void ADD (int rd, int rs1, int rs2);
 void SUB (int rd, int rs1, int rs2);
