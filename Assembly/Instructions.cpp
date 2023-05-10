@@ -368,6 +368,38 @@ void BEQ(int rs1, int rs2, string label)
     }
 }
 
+void BNE(int rs1, int rs2, string label)
+{
+
+    if (registers[rs1] != registers[rs2]) {
+        if (labelAddress.count(label)) {
+            PC = labelAddress[label];
+        }
+        else {
+            cout << "Label not found\n";
+            exit(1);
+        }
+    }
+    else {
+        PC += 4;
+    }
+}
+void BLT(int rs1, int rs2, string label) 
+{
+    if (registers[rs1] < registers[rs2]) {
+        if (labelAddress.count(label)) {
+            PC = labelAddress[label];
+        }
+        else {
+            cout << "Label not found\n";
+            exit(1);
+        }
+    }
+    else {
+        PC += 4;
+    }
+}
+
 
 // U-type
 void LUI(int rd, int imm)
