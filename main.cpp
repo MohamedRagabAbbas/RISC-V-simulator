@@ -9,7 +9,7 @@ using namespace std;
 #define ll long long
 
 // Global Variables
-vector<vector<string>> parsedInstructions;  // each vector in this 2D vector is an instruction ( ex: [add,t0,t1,t2] )
+
 map<string,bool> hasParantheses;
 ifstream instructionsInput, memoryInput;
 
@@ -27,7 +27,7 @@ string handleParantheses(string);
 void open_file(string, int);
 void remove_spaces(vector<string> &);
 vector <string> clean();
-vector<vector<string>> parse(vector<string> &); // transform comma separated string to vector - addi t0, t1, 5 -> [addi,t0,t1,5]
+void parse(vector<string> &); // transform comma separated string to vector - addi t0, t1, t2 -> [addi,t0,t1,t2]
 
 // printing functions
 
@@ -37,10 +37,9 @@ void printMemoryContents();
 void printInstructionsTest(vector<string> &);
 
 
-void run_program();
+void run_program(vector<string>);
 void initialize_memory();
 //void end_program();
-
 
 
 int main()
@@ -76,11 +75,19 @@ int main()
     
     populateParantheses();
     vector<string> cleaned_instructions = clean();
-    parsedInstructions = parse(cleaned_instructions);
+    parse(cleaned_instructions);
     
-    printInstructionsTest(cleaned_instructions);
+    //printInstructionsTest(cleaned_instructions);
     
-    run_program();
+//    cout << "\n";
+//    for(auto u : addressToInstruction){
+//        cout << u.first << " ";
+//        for(auto c : u.second) cout << c << " ";
+//        cout << "\n";
+//    }
+//    cout << addressOfLabel["loop1"] << "\n";
+    
+    while(1) run_program(addressToInstruction[PC]);
 }
 
 bool check_address(ll address)
@@ -109,7 +116,6 @@ void open_file(string file_name, int option)
     }
 }
 
-
 void initialize_memory()
 {
     int address, value;
@@ -118,7 +124,6 @@ void initialize_memory()
         memory.insert({address,value});
     }
 }
-
 
 string lowercase(string s)
 {
@@ -211,125 +216,132 @@ vector<string> clean()
     return instructions;
 }
 
-vector<vector<string>> parse(vector<string> &instructions)
+void parse(vector<string> &instruction)
 {
-    vector<vector<string>> parsed_instructions;
-    vector<string> single_instruction;
+    vector<string> parsed_instruction;
     
     string word = "";
-    for(string s : instructions){
+    int i = -0;
+    for(string s : instruction){
         for(char c : s){
             if(c != ','){
                 word += c;
             }
             else if(word.size() != 0){
-                single_instruction.push_back(word);
+                parsed_instruction.push_back(word);
                 word = "";
             }
         }
-        parsed_instructions.push_back(single_instruction);
-        single_instruction.clear();
+      
+        if(parsed_instruction.size() == 1 && (parsed_instruction[0] != "ecall" && parsed_instruction[0] != "ebreak" && parsed_instruction[0] != "fence")) {
+            parsed_instruction[0].pop_back();
+            addressOfLabel[parsed_instruction[0]] = PC + (4 * i);
+        }
+        else {
+            addressToInstruction[PC + (4 * i)] = parsed_instruction;
+            i++;
+        }
+        parsed_instruction.clear();
     }
     
-    return parsed_instructions;
 }
 
-void run_program(){
+void run_program(vector<string> v){
     
-    int i = 1;
-    for(vector<string> v : parsedInstructions){
-        
-        if(v[0] == "add"){
-            ADD(find_reg(v[1]), find_reg(v[2]), find_reg(v[3]));
-        }
-        else if(v[0] == "sub"){
-            SUB(find_reg(v[1]), find_reg(v[2]), find_reg(v[3]));
-        }
-        else if(v[0] == "or"){
-            OR(find_reg(v[1]), find_reg(v[2]), find_reg(v[3]));
-        }
-        else if(v[0] == "and"){
-            AND(find_reg(v[1]), find_reg(v[2]), find_reg(v[3]));
-        }
-        else if(v[0] == "xor"){
-            XOR(find_reg(v[1]), find_reg(v[2]), find_reg(v[3]));
-        }
-        else if(v[0] == "sll"){
-            SLL(find_reg(v[1]),find_reg(v[2]),find_reg(v[3]));
-        }
-        else if(v[0] == "srl"){
-            SRL(find_reg(v[1]),find_reg(v[2]),find_reg(v[3]));
-        }
-        else if(v[0] == "sra"){
-            
-        }
-        else if(v[0] == "slt"){
-            
-        }
-        else if(v[0] == "sltu"){
-            
-        }
-        else if(v[0] == "addi"){
-            ADDI(find_reg(v[1]), find_reg(v[2]), stoi(v[3]));
-        }
-        else if(v[0] == "andi"){
-            ANDI(find_reg(v[1]), find_reg(v[2]), stoi(v[3]));
-        }
-        else if(v[0] == "ori"){
-            ORI(find_reg(v[1]), find_reg(v[2]), stoi(v[3]));
-        }
-        else if(v[0] == "xori"){
-            XORI(find_reg(v[1]), find_reg(v[2]), stoi(v[3]));
-        }
-        else if(v[0] == "slli"){
-            
-        }
-        else if(v[0] == "srli"){
-            
-        }
-        else if(v[0] == "srai"){
-            
-        }
-        else if(v[0] == "jalr"){
-            
-        }
-        else if(v[0] == "lw"){
-            LW(find_reg(v[1]),find_reg(v[2]),stoi(v[3]));
-        }
-        else if(v[0] == "lh"){
-            
-        }
-        else if(v[0] == "lb"){
-            
-        }
-        else if(v[0] == "lhu"){
-            
-        }
-        else if(v[0] == "lbu"){
-            
-        }
-        else if(v[0] == "slti"){
-            
-        }
-        else if(v[0] == "sltiu"){
-            
-        }
-        else if(v[0] == "sw"){
-            SW(find_reg(v[1]),find_reg(v[2]),stoi(v[3]));
-        }
-        else if(v[0] == "sh"){
-            
-        }
-        else if(v[0] == "sb"){
-            
-        }
-        else if(v[0] == "ecall" || v[0] == "ebreak" || v[0] == "fence"){
-            //end_program();
-        }
-        printInstruction(v, i++);
-        printRegisterContents();
-        printMemoryContents();
+    if(v[0] == "add"){
+        ADD(find_reg(v[1]), find_reg(v[2]), find_reg(v[3]));
     }
+    else if(v[0] == "sub"){
+        SUB(find_reg(v[1]), find_reg(v[2]), find_reg(v[3]));
+    }
+    else if(v[0] == "or"){
+        OR(find_reg(v[1]), find_reg(v[2]), find_reg(v[3]));
+    }
+    else if(v[0] == "and"){
+        AND(find_reg(v[1]), find_reg(v[2]), find_reg(v[3]));
+    }
+    else if(v[0] == "xor"){
+        XOR(find_reg(v[1]), find_reg(v[2]), find_reg(v[3]));
+    }
+    else if(v[0] == "sll"){
+        SLL(find_reg(v[1]),find_reg(v[2]),find_reg(v[3]));
+    }
+    else if(v[0] == "srl"){
+        SRL(find_reg(v[1]),find_reg(v[2]),find_reg(v[3]));
+    }
+    else if(v[0] == "sra"){
+
+    }
+    else if(v[0] == "slt"){
+
+    }
+    else if(v[0] == "sltu"){
+
+    }
+    else if(v[0] == "addi"){
+        ADDI(find_reg(v[1]), find_reg(v[2]), stoi(v[3]));
+    }
+    else if(v[0] == "andi"){
+        ANDI(find_reg(v[1]), find_reg(v[2]), stoi(v[3]));
+    }
+    else if(v[0] == "ori"){
+        ORI(find_reg(v[1]), find_reg(v[2]), stoi(v[3]));
+    }
+    else if(v[0] == "xori"){
+        XORI(find_reg(v[1]), find_reg(v[2]), stoi(v[3]));
+    }
+    else if(v[0] == "slli"){
+
+    }
+    else if(v[0] == "srli"){
+
+    }
+    else if(v[0] == "srai"){
+
+    }
+    else if(v[0] == "jalr"){
+
+    }
+    else if(v[0] == "lw"){
+        LW(find_reg(v[1]),find_reg(v[2]),stoi(v[3]));
+    }
+    else if(v[0] == "lh"){
+
+    }
+    else if(v[0] == "lb"){
+
+    }
+    else if(v[0] == "lhu"){
+
+    }
+    else if(v[0] == "lbu"){
+
+    }
+    else if(v[0] == "slti"){
+
+    }
+    else if(v[0] == "sltiu"){
+
+    }
+    else if(v[0] == "sw"){
+        SW(find_reg(v[1]),find_reg(v[2]),stoi(v[3]));
+    }
+    else if(v[0] == "sh"){
+
+    }
+    else if(v[0] == "sb"){
+
+    }
+    else if(v[0] == "beq"){
+        BEQ(find_reg(v[1]),find_reg(v[2]),v[3]);
+    }
+    else if(v[0] == "ecall" || v[0] == "ebreak" || v[0] == "fence"){
+        cout << "Terminating Program";
+        exit(1);
+    }
+    //printInstruction(v, i++);
+    printRegisterContents();
+    printMemoryContents();
 }
 
 int find_reg(string reg)
@@ -427,14 +439,14 @@ void printInstructionsTest(vector<string> & cleaned_instructions)
         cout << s << "\n";
     }
     
-    cout << "\n-------- Parsed Instructions --------\n\n";
-    for(vector<string> v : parsedInstructions){
-        for(string s : v){
-            cout << s << " ";
-        }
-        cout << "\n";
-    }
-    cout << "\n-------------------------------------\n\n";
+//    cout << "\n-------- Parsed Instructions --------\n\n";
+//    for(vector<string> v : parsedInstructions){
+//        for(string s : v){
+//            cout << s << " ";
+//        }
+//        cout << "\n";
+//    }
+//    cout << "\n-------------------------------------\n\n";
 
 }
 
@@ -477,5 +489,5 @@ void printMemoryContents()
     for(auto u : memory){
         cout << "Address: " << u.first << "\t\t" << "Memory: " << u.second << "\n";
     }
-    cout << "\n\n";
+    cout << "\n";
 }
