@@ -1,4 +1,10 @@
 #include <iostream>
+#include <string>
+#include <cmath>
+#include <algorithm>
+#include <vector>
+#include <map>
+
 using namespace std;
 
 #include "Instructions.h"
@@ -60,14 +66,14 @@ string decimalToBinary_Unsigned(int decimal)
     return r;
 }
 int binaryToDecimal(string binary) {
-    long long decimal = 0;
-    int i = 0;
-    while (i < binary.length())
-    {
-        decimal += binary[i] * pow(2, i);
-        i++;
+    int result = 0;
+    int len = binary.length();
+    for (int i = 0; i < len; i++) {
+        if (binary[i] == '1') {
+            result += pow(2, len - i - 1);
+        }
     }
-    return decimal;
+    return result;
 }
 
 void ADD(int rd, int rs1, int rs2)
@@ -246,55 +252,19 @@ void LW (int rd, int base, int offset)
 }
 void LH (int rd, int rs1, int imm)
 {
-    if (rd == 0) return;
-    if (offset > ((1 << 11) - 1) || offset < -(1 << 11)) {
-        cout << "\"offset\" not in allowed range\n";
-        exit(1);
-    }
-    int content = memory[registers[base] + offset];
-    string contentString = decimalToBinary_Signed(content);
-    int halfWord = contentString.substr(0, 15);
-    registers[rd] = halfWord;
-    PC += 4;
+    
 }
 void LB (int rd, int rs1, int imm)
 {
-    if (rd == 0) return;
-    if (offset > ((1 << 11) - 1) || offset < -(1 << 11)) {
-        cout << "\"offset\" not in allowed range\n";
-        exit(1);
-    }
-    int content = memory[registers[base] + offset];
-    string contentString = decimalToBinary_Signed(content);
-    int halfWord = contentString.substr(0, 7);
-    registers[rd] = halfWord;
-    PC += 4;
+    
 }
 void LHU (int rd, int rs1, int imm)
 {
-    if (rd == 0) return;
-    if (offset > ((1 << 11) - 1) || offset < -(1 << 11)) {
-        cout << "\"offset\" not in allowed range\n";
-        exit(1);
-    }
-    int content = memory[registers[base] + offset];
-    string contentString = decimalToBinary_Unsigned(content);
-    int halfWord = contentString.substr(0, 15);
-    registers[rd] = halfWord;
-    PC += 4;
+    
 }
 void LBU (int rd, int rs1, int imm)
 {
-    if (rd == 0) return;
-    if (offset > ((1 << 11) - 1) || offset < -(1 << 11)) {
-        cout << "\"offset\" not in allowed range\n";
-        exit(1);
-    }
-    int content = memory[registers[base] + offset];
-    string contentString = decimalToBinary_Unsigned(content);
-    int halfWord = contentString.substr(0, 7);
-    registers[rd] = halfWord;
-    PC += 4;
+    
 }
 void SLTI (int rd, int rs1, int imm)
 {
