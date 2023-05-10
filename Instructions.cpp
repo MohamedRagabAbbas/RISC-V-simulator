@@ -55,29 +55,46 @@ void SLL(int rd, int rs1, int rs2)
 void SRL(int rd, int rs1, int rs2)
 {
     if(rd == 0) return;
+    
     int shift_amount = registers[rs2];
     if(shift_amount > 31 || shift_amount < 0){
         cout << "Right shift amount " << "\"" << shift_amount << "\" is not in range\n";
         exit(1);
     }
-    registers[rd] = registers[rs1] >> registers[rs2];
+    
+    registers[rd] = (registers[rs1] >> registers[rs2]);
     PC += 4;
 }
 void SRA(int rd, int rs1, int rs2)
 {
     if(rd == 0) return;
     
+    int shift_amount = registers[rs2];
+    if(shift_amount > 31 || shift_amount < 0){
+        cout << "Right shift amount " << "\"" << shift_amount << "\" is not in range\n";
+        exit(1);
+    }
+    
+    registers[rd] = registers[rs1] >> registers[rs2];
+    PC += 4;
+    
 }
 void SLT(int rd, int rs1, int rs2)
 {
     if(rd == 0) return;
+    registers[rd] = (registers[rs1] < registers[rs2]) ? 1 : 0;
+    PC += 4;
     
 }
 void SLTU (int rd, int rs1, int rs2)
 {
     if(rd == 0) return;
-    
+    if(rd == 0) return;
+    registers[rd] = (registers[rs1] < registers[rs2]) ? 1 : 0;
+    PC += 4;
 }
+
+
 
 // I-type
 void ADDI (int rd, int rs1, int imm)
@@ -122,18 +139,40 @@ void XORI (int rd, int rs1, int imm)
 }
 void SLLI (int rd, int rs1, int imm)
 {
-    
+    if(rd == 0) return;
+    int shift_amount = imm;
+    if(shift_amount > 31 || shift_amount < 0){
+        cout << "Left shift amount " << "\"" << shift_amount << "\" is not in range\n";
+        exit(1);
+    }
+    registers[rd] = registers[rs1] << imm;
+    PC += 4;
 }
 void SRLI (int rd, int rs1, int imm)
 {
-    
+    if(rd == 0) return;
+    int shift_amount = imm;
+    if(shift_amount > 31 || shift_amount < 0){
+        cout << "Right shift amount " << "\"" << shift_amount << "\" is not in range\n";
+        exit(1);
+    }
+    registers[rd] = registers[rs1] >> imm;
+    PC += 4;
 }
 void SRAI (int rd, int rs1, int imm)
 {
-    
+    if(rd == 0) return;
+    int shift_amount = imm;
+    if(shift_amount > 31 || shift_amount < 0){
+        cout << "Right shift amount " << "\"" << shift_amount << "\" is not in range\n";
+        exit(1);
+    }
+    registers[rd] = registers[rs1] >> imm;
+    PC += 4;
 }
 void JALR (int rd, int rs1, int imm)
 {
+    if(rd == 0) return;
     
 }
 void LW (int rd, int base, int offset)
@@ -191,3 +230,22 @@ void SB (int rs1, int base, int offset)
 {
     if(base == 0) return;
 }
+
+// B-type
+void BEQ (int rs1, int rs2, string label)
+{
+    
+    if(registers[rs1] == registers[rs2]){
+        if(addressOfLabel.count(label)){
+            PC = addressOfLabel[label];
+        }
+        else{
+            cout << "Label not found\n";
+            exit(1);
+        }
+    }
+    else{
+        PC += 4;
+    }
+}
+
