@@ -244,7 +244,7 @@ void LH(int rd, int rs1, int imm)
     int content = memory[registers[rs1] + imm];
     string binaryContent = decimalToBinary_Signed(content);
     string sub = binaryContent.substr(16);
-    binaryContent = sub[0] == '1' ? "1111111111111111" + binaryContent : "0000000000000000" + binaryContent;
+    binaryContent = sub[0] == '1' ? "1111111111111111" + sub : "0000000000000000" + sub;
     registers[rd] = binaryToDecimal(binaryContent);
     PC += 4;
 }
@@ -256,9 +256,10 @@ void LB(int rd, int rs1, int imm)
         exit(1);
     }
     int content = memory[registers[rs1] + imm];
+    
     string binaryContent = decimalToBinary_Signed(content);
     string sub = binaryContent.substr(24);
-    binaryContent = sub[0] == '1' ? "111111111111111111111111" + binaryContent : "000000000000000000000000" + binaryContent;
+    binaryContent = sub[0] == '1' ? "111111111111111111111111" + sub : "000000000000000000000000" + sub;
     registers[rd] = binaryToDecimal(binaryContent);
     PC += 4;
 }
@@ -272,7 +273,7 @@ void LHU(int rd, int rs1, int imm)
     int content = memory[registers[rs1] + imm];
     string binaryContent = decimalToBinary_Signed(content);
     string sub = binaryContent.substr(16);
-    binaryContent =  "0000000000000000" + binaryContent;
+    binaryContent =  "0000000000000000" + sub;
     registers[rd] = binaryToDecimal(binaryContent);
     PC += 4;
 }
@@ -286,7 +287,7 @@ void LBU(int rd, int rs1, int imm)
     int content = memory[registers[rs1] + imm];
     string binaryContent = decimalToBinary_Signed(content);
     string sub = binaryContent.substr(24);
-    binaryContent = "000000000000000000000000" + binaryContent;
+    binaryContent = "000000000000000000000000" + sub;
     registers[rd] = binaryToDecimal(binaryContent);
     PC += 4;
 }

@@ -57,18 +57,12 @@ void SB(int rs1, int base, int offset); // done
 
 // B-type
 void BEQ(int rs1, int rs2, string label);
-void BEQ(int rs1, int rs2, int offset);
 void BNE(int rs1, int rs2, string label);
-void BNE(int rs1, int rs2, int offset);
 void BLT(int rs1, int rs2, string label);
-void BLT(int rs1, int rs2, int offset);
 void BLTU(int rs1, int rs2, string label);
-void BLTU(int rs1, int rs2, int offset);
 void BGE(int rs1, int rs2, string label);
-void BGE(int rs1, int rs2, int offset);
 void BGEU(int rs1, int rs2, string label);
-void BGEU(int rs1, int rs2, int offset);
 
 // U-type
-void LUI(int rd, int imm);
+void LUI(int rd, int imm);//done
 void AUIPC(int rd, int imm);
