@@ -1,5 +1,1 @@
-﻿  Instructions.cpp
-D:\Semesters\Spring2023\Assembly\Assignments\Project1\RISC-V-simulator\Assembly\Instructions.cpp(21,5): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Semesters\Spring2023\Assembly\Assignments\Project1\RISC-V-simulator\Assembly\Instructions.cpp(54,30): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Semesters\Spring2023\Assembly\Assignments\Project1\RISC-V-simulator\Assembly\Instructions.cpp(57,26): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
-D:\Semesters\Spring2023\Assembly\Assignments\Project1\RISC-V-simulator\Assembly\Instructions.cpp(283,56): error C2065: 'binary': undeclared identifier
+﻿  Assembly.vcxproj -> D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\x64\Debug\Assembly.exe

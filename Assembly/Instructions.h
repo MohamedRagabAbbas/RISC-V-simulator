@@ -47,8 +47,8 @@ void LH(int rd, int base, int offset); // done
 void LB(int rd, int base, int offset); // done
 void LHU(int rd, int base, int offset); // done
 void LBU(int rd, int base, int offset); // done
-void SLTI(int rd, int rs1, int imm);
-void SLTIU(int rd, int rs1, int imm);
+void SLTI(int rd, int rs1, int imm);	// done
+void SLTIU(int rd, int rs1, int imm);	// done
 
 // S-type
 void SW(int rs1, int base, int offset); // done

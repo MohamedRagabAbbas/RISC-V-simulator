@@ -302,7 +302,14 @@ void SLTI(int rd, int rs1, int imm)
 }
 void SLTIU(int rd, int rs1, int imm)
 {
-
+    if (rd == 0) return;
+    if (imm > ((1 << 11) - 1) || imm < -(1 << 11)) {
+        cout << "\"offset\" not in allowed range\n";
+        exit(1);
+    }
+    unsigned int imm_unsigned = imm;
+    registers[rd] = registers[rs1] < imm_unsigned;
+    PC += 4;
 }
 
 // S-type
