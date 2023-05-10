@@ -224,19 +224,29 @@ void JALR(int rd, int rs1, int imm)
     if (rd == 0) return;
 
 }
-void LW(int rd, int base, int offset)
+void LW(int rd, int rs1, int imm)
 {
     if (rd == 0) return;
-    if (offset > ((1 << 11) - 1) || offset < -(1 << 11)) {
+    if (imm > ((1 << 11) - 1) || imm < -(1 << 11)) {
         cout << "\"offset\" not in allowed range\n";
         exit(1);
     }
-    registers[rd] = memory[registers[base] + offset];
+    registers[rd] = memory[registers[rs1] + imm];
     PC += 4;
 }
 void LH(int rd, int rs1, int imm)
 {
-
+    if (rd == 0) return;
+    if (imm > ((1 << 11) - 1) || imm < -(1 << 11)) {
+        cout << "\"offset\" not in allowed range\n";
+        exit(1);
+    }
+    int content = memory[registers[rs1] + imm];
+    string binaryContent = decimalToBinary_Signed(content);
+    string sub = binaryContent.substr(16);
+    binaryContent = sub[0] == '1' ? "1111111111111111" + binaryContent : "0000000000000000" + binaryContent;
+    registers[rd] = binaryToDecimal(binaryContent);
+    PC += 4;
 }
 void LB(int rd, int rs1, int imm)
 {
