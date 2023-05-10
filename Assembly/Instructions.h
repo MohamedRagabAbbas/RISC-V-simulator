@@ -43,17 +43,17 @@ void SRLI(int rd, int rs1, int imm);   // done
 void SRAI(int rd, int rs1, int imm);   // done
 void JALR(int rd, int rs1, int imm);
 void LW(int rd, int base, int offset); // done
-void LH(int rd, int base, int offset);
-void LB(int rd, int base, int offset);
-void LHU(int rd, int base, int offset);
-void LBU(int rd, int base, int offset);
+void LH(int rd, int base, int offset); // done
+void LB(int rd, int base, int offset); // done
+void LHU(int rd, int base, int offset); // done
+void LBU(int rd, int base, int offset); // done
 void SLTI(int rd, int rs1, int imm);
 void SLTIU(int rd, int rs1, int imm);
 
 // S-type
 void SW(int rs1, int base, int offset); // done
-void SH(int rs1, int base, int offset);
-void SB(int rs1, int base, int offset);
+void SH(int rs1, int base, int offset); // done
+void SB(int rs1, int base, int offset); // done
 
 // B-type
 void BEQ(int rs1, int rs2, string label);
