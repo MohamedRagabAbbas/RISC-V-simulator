@@ -10,6 +10,8 @@ using namespace std;
 
 // Global Variables
 
+ll initialAddress;
+vector<vector<string>> PI; // each vector in this 2D vector is an instruction (ex [add,t0,t1,t2] )
 map<string,bool> hasParantheses;
 ifstream instructionsInput, memoryInput;
 
@@ -32,15 +34,13 @@ void parse(vector<string> &); // transform comma separated string to vector - ad
 
 // printing functions
 
-void printInstruction(vector<string>);
+void printInstruction();
 void printRegisterContents();
 void printMemoryContents();
 void printInstructionsTest(vector<string> &);
 
-
-void run_program(vector<string>);
+void run_program();
 void initialize_memory();
-//void end_program();
 
 
 int main()
@@ -52,15 +52,14 @@ int main()
     cin >> assembly_file;
     open_file(assembly_file, 1);
     
-    ll address;
     cout << "Enter the address of the first instruction (non-negative number): ";
-    cin >> address;
+    cin >> initialAddress;
     
-    while(!check_address(address)){
+    while(!check_address(initialAddress)){
         cout << "Address not in range. Enter an address between 0 and 2^32 - 1: ";
-        cin >> address;
+        cin >> initialAddress;
     }
-    PC = (int)address;
+    PC = (int)initialAddress;
     
     int option;
     cout << "To load data into the memory press 1, else press 2: ";
@@ -73,6 +72,8 @@ int main()
         open_file(memory_file, 2);
         initialize_memory();
     }
+    
+    
     
     populateParantheses();
     vector<string> cleaned_instructions = clean();
@@ -91,27 +92,28 @@ int main()
     cout << "\n";
     while(1) {
         cout << "Instruction under execution: ";
-        printInstruction(addressToInstruction[PC]);
+        printInstruction();
         cout << "Program Counter: " << PC << "\n\n";
-        run_program(addressToInstruction[PC]);
+        run_program();
         printRegisterContents();
         printMemoryContents();
         cout << "-------------------------------------------------------\n";
     }
 }
 
-void printInstruction(vector<string> s)
+void printInstruction()
 {
-    if(s.size() == 1) cout << s[0];
-    else if(hasParantheses[s[0]]){
-        cout << s[0] << " " << s[1] << ", " << s[3] << "(" << s[2] << ")";
+    int index = (PC - initialAddress)/4;
+    if(PI[index].size() == 1) cout << PI[index][0];
+    else if(hasParantheses[PI[index][0]]){
+        cout << PI[index][0] << " " << PI[index][1] << ", " << PI[index][3] << "(" << PI[index][2] << ")";
     }
-    else if (s.size() == 3){
-        cout << s[0] << " " << s[1] << ", " << s[2];
+    else if (PI[index].size() == 3){
+        cout << PI[index][0] << " " << PI[index][1] << ", " << PI[index][2];
 
     }
-    else if (s.size() == 4){
-        cout << s[0] << " " << s[1] << ", " << s[2] << ", " << s[3];
+    else if (PI[index].size() == 4){
+        cout << PI[index][0] << " " << PI[index][1] << ", " << PI[index][2] << ", " << PI[index][3];
 
     }
     cout << "\n\n";
@@ -213,7 +215,7 @@ vector<string> clean()
     
     while(getline(instructionsInput,line)){
         stringstream str(line);
-        getline(str, word, ' '); 
+        getline(str, word, ' ');
         if(word.size() == 0) continue;          // handling blank space
         word = lowercase(word);
         single_instruction += word + ',';
@@ -245,7 +247,7 @@ vector<string> clean()
 
 void parse(vector<string> &instruction)
 {
-    vector<string> parsed_instruction;
+    vector<string> singleParsedInstruction;
     
     string word = "";
     int i = 0;
@@ -255,118 +257,115 @@ void parse(vector<string> &instruction)
                 word += c;
             }
             else if(word.size() != 0){
-                parsed_instruction.push_back(word);
+                singleParsedInstruction.push_back(word);
                 word = "";
             }
         }
-        assignAddressToInstruction(parsed_instruction, i);
-        parsed_instruction.clear();
+        if(singleParsedInstruction.size() == 1 && (singleParsedInstruction[0] != "ecall" && singleParsedInstruction[0] != "ebreak" && singleParsedInstruction[0] != "fence")) {
+            singleParsedInstruction[0].pop_back();
+            labelAddress[singleParsedInstruction[0]] = PC + (4 * i);
+        }
+        else {
+            PI.push_back(singleParsedInstruction);
+            i++;
+        }
+        singleParsedInstruction.clear();
     }
     
 }
 
-void assignAddressToInstruction(vector<string> &parsed_instruction, int &i)
-{
-    if(parsed_instruction.size() == 1 && (parsed_instruction[0] != "ecall" && parsed_instruction[0] != "ebreak" && parsed_instruction[0] != "fence")) {
-        parsed_instruction[0].pop_back();
-        addressOfLabel[parsed_instruction[0]] = PC + (4 * i);
-    }
-    else {
-        addressToInstruction[PC + (4 * i)] = parsed_instruction;
-        i++;
-    }
-}
-
-void run_program(vector<string> v){
+void run_program(){
     
-    if(v[0] == "add"){
-        ADD(find_reg(v[1]), find_reg(v[2]), find_reg(v[3]));
+    int index = (PC - initialAddress)/4;
+    
+    if(PI[index][0] == "add"){
+        ADD(find_reg(PI[index][1]), find_reg(PI[index][2]), find_reg(PI[index][3]));
     }
-    else if(v[0] == "sub"){
-        SUB(find_reg(v[1]), find_reg(v[2]), find_reg(v[3]));
+    else if(PI[index][0] == "sub"){
+        SUB(find_reg(PI[index][1]), find_reg(PI[index][2]), find_reg(PI[index][3]));
     }
-    else if(v[0] == "or"){
-        OR(find_reg(v[1]), find_reg(v[2]), find_reg(v[3]));
+    else if(PI[index][0] == "or"){
+        OR(find_reg(PI[index][1]), find_reg(PI[index][2]), find_reg(PI[index][3]));
     }
-    else if(v[0] == "and"){
-        AND(find_reg(v[1]), find_reg(v[2]), find_reg(v[3]));
+    else if(PI[index][0] == "and"){
+        AND(find_reg(PI[index][1]), find_reg(PI[index][2]), find_reg(PI[index][3]));
     }
-    else if(v[0] == "xor"){
-        XOR(find_reg(v[1]), find_reg(v[2]), find_reg(v[3]));
+    else if(PI[index][0] == "xor"){
+        XOR(find_reg(PI[index][1]), find_reg(PI[index][2]), find_reg(PI[index][3]));
     }
-    else if(v[0] == "sll"){
-        SLL(find_reg(v[1]),find_reg(v[2]),find_reg(v[3]));
+    else if(PI[index][0] == "sll"){
+        SLL(find_reg(PI[index][1]),find_reg(PI[index][2]),find_reg(PI[index][3]));
     }
-    else if(v[0] == "srl"){
-        SRL(find_reg(v[1]),find_reg(v[2]),find_reg(v[3]));
+    else if(PI[index][0] == "srl"){
+        SRL(find_reg(PI[index][1]),find_reg(PI[index][2]),find_reg(PI[index][3]));
     }
-    else if(v[0] == "sra"){
+    else if(PI[index][0] == "sra"){
 
     }
-    else if(v[0] == "slt"){
+    else if(PI[index][0] == "slt"){
 
     }
-    else if(v[0] == "sltu"){
+    else if(PI[index][0] == "sltu"){
 
     }
-    else if(v[0] == "addi"){
-        ADDI(find_reg(v[1]), find_reg(v[2]), stoi(v[3]));
+    else if(PI[index][0] == "addi"){
+        ADDI(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
     }
-    else if(v[0] == "andi"){
-        ANDI(find_reg(v[1]), find_reg(v[2]), stoi(v[3]));
+    else if(PI[index][0] == "andi"){
+        ANDI(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
     }
-    else if(v[0] == "ori"){
-        ORI(find_reg(v[1]), find_reg(v[2]), stoi(v[3]));
+    else if(PI[index][0] == "ori"){
+        ORI(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
     }
-    else if(v[0] == "xori"){
-        XORI(find_reg(v[1]), find_reg(v[2]), stoi(v[3]));
+    else if(PI[index][0] == "xori"){
+        XORI(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
     }
-    else if(v[0] == "slli"){
+    else if(PI[index][0] == "slli"){
 
     }
-    else if(v[0] == "srli"){
+    else if(PI[index][0] == "srli"){
 
     }
-    else if(v[0] == "srai"){
+    else if(PI[index][0] == "srai"){
 
     }
-    else if(v[0] == "jalr"){
+    else if(PI[index][0] == "jalr"){
 
     }
-    else if(v[0] == "lw"){
-        LW(find_reg(v[1]),find_reg(v[2]),stoi(v[3]));
+    else if(PI[index][0] == "lw"){
+        LW(find_reg(PI[index][1]),find_reg(PI[index][2]),stoi(PI[index][3]));
     }
-    else if(v[0] == "lh"){
+    else if(PI[index][0] == "lh"){
 
     }
-    else if(v[0] == "lb"){
+    else if(PI[index][0] == "lb"){
 
     }
-    else if(v[0] == "lhu"){
+    else if(PI[index][0] == "lhu"){
 
     }
-    else if(v[0] == "lbu"){
+    else if(PI[index][0] == "lbu"){
 
     }
-    else if(v[0] == "slti"){
+    else if(PI[index][0] == "slti"){
 
     }
-    else if(v[0] == "sltiu"){
+    else if(PI[index][0] == "sltiu"){
 
     }
-    else if(v[0] == "sw"){
-        SW(find_reg(v[1]),find_reg(v[2]),stoi(v[3]));
+    else if(PI[index][0] == "sw"){
+        SW(find_reg(PI[index][1]),find_reg(PI[index][2]),stoi(PI[index][3]));
     }
-    else if(v[0] == "sh"){
+    else if(PI[index][0] == "sh"){
 
     }
-    else if(v[0] == "sb"){
+    else if(PI[index][0] == "sb"){
 
     }
-    else if(v[0] == "beq"){
-        BEQ(find_reg(v[1]),find_reg(v[2]),v[3]);
+    else if(PI[index][0] == "beq"){
+        BEQ(find_reg(PI[index][1]),find_reg(PI[index][2]),PI[index][3]);
     }
-    else if(v[0] == "ecall" || v[0] == "ebreak" || v[0] == "fence"){
+    else if(PI[index][0] == "ecall" || PI[index][0] == "ebreak" || PI[index][0] == "fence"){
         cout << "Terminating Program";
         exit(1);
     }
