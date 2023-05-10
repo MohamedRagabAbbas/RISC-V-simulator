@@ -280,12 +280,20 @@ void SH(int rs1, int base, int offset)
     }
     int content = registers[rs1];
     string binaryContent = decimalToBinary_Signed(content);
-    memory[registers[base] + offset] = binaryToDecimal(binaryContent.substr(0,16));
+    memory[registers[base] + offset] = binaryToDecimal(binaryContent.substr(16));
     PC += 4;
 }
 void SB(int rs1, int base, int offset)
 {
     if (base == 0) return;
+    if (offset > ((1 << 11) - 1) || offset < -(1 << 11)) {
+        cout << "\"offset\" not in allowed range\n";
+        exit(1);
+    }
+    int content = registers[rs1];
+    string binaryContent = decimalToBinary_Signed(content);
+    memory[registers[base] + offset] = binaryToDecimal(binaryContent.substr(24));
+    PC += 4;
 }
 
 // B-type
