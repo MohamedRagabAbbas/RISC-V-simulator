@@ -213,7 +213,7 @@ vector<string> clean()
     
     while(getline(instructionsInput,line)){
         stringstream str(line);
-        getline(str, word, ' ');
+        getline(str, word, ' '); 
         if(word.size() == 0) continue;          // handling blank space
         word = lowercase(word);
         single_instruction += word + ',';

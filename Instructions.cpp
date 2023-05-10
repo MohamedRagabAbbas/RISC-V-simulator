@@ -11,6 +11,65 @@ using namespace std;
 
 // R-type
 
+void twosComplement(string& binary)
+{
+    bool firstOne = 0;
+    for (int i = binary.length() - 1; i >= 0; i--)
+    {
+        if (firstOne)
+            binary[i] = binary[i] == '0' ? '1' : '0';
+        if (binary[i] == '1')
+            firstOne = 1;
+    }
+}
+
+string decimalToBinary_Signed(int decimal)
+{
+    bool isNegative = 0;
+    if (decimal < 0)
+    {
+        decimal = -1 * decimal;
+        isNegative = 1;
+    }
+    string r = "";
+    while (decimal > 0)
+    {
+        r += to_string(decimal % 2);
+        decimal /= 2;
+    }
+    reverse(r.begin(), r.end());
+    while (r.length() != 32)
+        r.insert(r.begin(), '0');
+    if (isNegative)
+        twosComplement(r);
+    return r;
+}
+string decimalToBinary_Unsigned(int decimal)
+{
+    if (decimal < 0)
+        decimal = -1 * decimal;
+    string r = "";
+    while (decimal > 0)
+    {
+        r += decimal % 2;
+        decimal /= 2;
+    }
+    reverse(r.begin(), r.end());
+    while (r.length() != 32)
+        r.insert(r.begin(), '0');
+    return r;
+}
+int binaryToDecimal(string binary) {
+    long long decimal = 0;
+    int i = 0;
+    while (i < binary.length())
+    {
+        decimal += binary[i] * pow(2, i);
+        i++;
+    }
+    return decimal;
+}
+
 void ADD(int rd, int rs1, int rs2)
 {
     if(rd == 0) return;
@@ -187,19 +246,55 @@ void LW (int rd, int base, int offset)
 }
 void LH (int rd, int rs1, int imm)
 {
-    
+    if (rd == 0) return;
+    if (offset > ((1 << 11) - 1) || offset < -(1 << 11)) {
+        cout << "\"offset\" not in allowed range\n";
+        exit(1);
+    }
+    int content = memory[registers[base] + offset];
+    string contentString = decimalToBinary_Signed(content);
+    int halfWord = contentString.substr(0, 15);
+    registers[rd] = halfWord;
+    PC += 4;
 }
 void LB (int rd, int rs1, int imm)
 {
-    
+    if (rd == 0) return;
+    if (offset > ((1 << 11) - 1) || offset < -(1 << 11)) {
+        cout << "\"offset\" not in allowed range\n";
+        exit(1);
+    }
+    int content = memory[registers[base] + offset];
+    string contentString = decimalToBinary_Signed(content);
+    int halfWord = contentString.substr(0, 7);
+    registers[rd] = halfWord;
+    PC += 4;
 }
 void LHU (int rd, int rs1, int imm)
 {
-    
+    if (rd == 0) return;
+    if (offset > ((1 << 11) - 1) || offset < -(1 << 11)) {
+        cout << "\"offset\" not in allowed range\n";
+        exit(1);
+    }
+    int content = memory[registers[base] + offset];
+    string contentString = decimalToBinary_Unsigned(content);
+    int halfWord = contentString.substr(0, 15);
+    registers[rd] = halfWord;
+    PC += 4;
 }
 void LBU (int rd, int rs1, int imm)
 {
-    
+    if (rd == 0) return;
+    if (offset > ((1 << 11) - 1) || offset < -(1 << 11)) {
+        cout << "\"offset\" not in allowed range\n";
+        exit(1);
+    }
+    int content = memory[registers[base] + offset];
+    string contentString = decimalToBinary_Unsigned(content);
+    int halfWord = contentString.substr(0, 7);
+    registers[rd] = halfWord;
+    PC += 4;
 }
 void SLTI (int rd, int rs1, int imm)
 {

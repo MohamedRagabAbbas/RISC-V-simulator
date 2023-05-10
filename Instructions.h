@@ -20,7 +20,7 @@ inline map<string,int> addressOfLabel;
 void ADD (int rd, int rs1, int rs2);    // done
 void SUB (int rd, int rs1, int rs2);    // done
 void AND (int rd, int rs1, int rs2);    // done
-void OR (int rd, int rs1, int rs2);     // done
+void OR  (int rd, int rs1, int rs2) ;     // done
 void XOR (int rd, int rs1, int rs2);    // done
 void SLL (int rd, int rs1, int rs2);    // done
 void SRL (int rd, int rs1, int rs2);    // done
