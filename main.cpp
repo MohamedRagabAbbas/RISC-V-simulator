@@ -1,5 +1,4 @@
 #include <iostream>
-#include <map>
 #include <string>
 #include <sstream>
 #include <fstream>
@@ -10,9 +9,8 @@ using namespace std;
 #define ll long long
 
 // Global Variables
-
-map<int,int> memory;                        // {address, value}
 vector<vector<string>> parsedInstructions;  // each vector in this 2D vector is an instruction ( ex: [add,t0,t1,t2] )
+map<string,bool> hasParantheses;
 ifstream instructionsInput, memoryInput;
 
 // helper functions
@@ -21,6 +19,8 @@ bool check_address(ll); // checks if address is within range
 int find_reg(string); // return a register's position in the array when given its name/number
 string regNumToName(int);    // x0 -> zero
 string lowercase(string); // lower-case all instruction words as they are case-insensitive (account for user's choice)
+void populateParantheses();
+string handleParantheses(string);
 
 // file handling
 
@@ -74,10 +74,11 @@ int main()
         initialize_memory();
     }
     
+    populateParantheses();
     vector<string> cleaned_instructions = clean();
     parsedInstructions = parse(cleaned_instructions);
     
-    //printInstructionsTest(cleaned_instructions);
+    printInstructionsTest(cleaned_instructions);
     
     run_program();
 }
@@ -141,6 +142,36 @@ void remove_spaces(vector<string> & instructions)
     instructions = modified_instructions;
 }
 
+void populateParantheses()
+{
+    hasParantheses["lb"] = 1;
+    hasParantheses["lh"] = 1;
+    hasParantheses["lw"] = 1;
+    hasParantheses["lbu"] = 1;
+    hasParantheses["lhu"] = 1;
+    hasParantheses["sb"] = 1;
+    hasParantheses["sh"] = 1;
+    hasParantheses["sw"] = 1;
+}
+
+string handleParantheses(string s){
+        
+    string instruction = "", word = "", rd = "", base = "", offset = "";
+    
+    int i = 0;
+    while(s[i] != ',') word += s[i++];
+    i++;
+    while(s[i] != ',') rd += s[i++];
+    i++;
+    while(s[i] != '(') offset += s[i++];
+    i++;
+    while(s[i] != ')') base += s[i++];
+        
+    instruction += word + ',' + rd + ',' + base + ',' + offset + ',';
+    
+    return instruction;
+}
+
 vector<string> clean()
 {
     vector<string> instructions;
@@ -151,19 +182,30 @@ vector<string> clean()
     while(getline(instructionsInput,line)){
         stringstream str(line);
         getline(str, word, ' ');
-        if(word.size() == 0) continue;
+        if(word.size() == 0) continue;          // handling blank space
         word = lowercase(word);
-        single_instruction += word;
-        single_instruction += ',';
+        single_instruction += word + ',';
         while(getline(str, word, ',')){
-            single_instruction += word;
-            single_instruction += ',';
+            single_instruction += word + ',';
         }
         instructions.push_back(single_instruction);
         single_instruction = "";
     }
     
     remove_spaces(instructions);
+    
+    // check if instruction has parantheses
+    for(string &s : instructions){
+        if(s.size() > 2){
+            string word = "";
+            int i = 0;
+            while(s[i] != ',') word += s[i++];
+            if(hasParantheses.count(word)){
+                s = handleParantheses(s);
+            }
+        }
+    }
+    
     instructionsInput.close();
         
     return instructions;
@@ -213,10 +255,10 @@ void run_program(){
             XOR(find_reg(v[1]), find_reg(v[2]), find_reg(v[3]));
         }
         else if(v[0] == "sll"){
-            
+            SLL(find_reg(v[1]),find_reg(v[2]),find_reg(v[3]));
         }
         else if(v[0] == "srl"){
-            
+            SRL(find_reg(v[1]),find_reg(v[2]),find_reg(v[3]));
         }
         else if(v[0] == "sra"){
             
@@ -252,7 +294,7 @@ void run_program(){
             
         }
         else if(v[0] == "lw"){
-            
+            LW(find_reg(v[1]),find_reg(v[2]),stoi(v[3]));
         }
         else if(v[0] == "lh"){
             
@@ -270,6 +312,15 @@ void run_program(){
             
         }
         else if(v[0] == "sltiu"){
+            
+        }
+        else if(v[0] == "sw"){
+            SW(find_reg(v[1]),find_reg(v[2]),stoi(v[3]));
+        }
+        else if(v[0] == "sh"){
+            
+        }
+        else if(v[0] == "sb"){
             
         }
         else if(v[0] == "ecall" || v[0] == "ebreak" || v[0] == "fence"){
@@ -422,9 +473,9 @@ void printRegisterContents()
 
 void printMemoryContents()
 {
-    cout << "-------- Memory --------\n";
+    cout << "-------- Memory --------\n\n";
     for(auto u : memory){
-        cout << "Address: " << u.first << "\t" << "Memory: " << u.second << "\n";
+        cout << "Address: " << u.first << "\t\t" << "Memory: " << u.second << "\n";
     }
     cout << "\n\n";
 }
