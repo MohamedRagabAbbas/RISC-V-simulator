@@ -264,7 +264,17 @@ void LB(int rd, int rs1, int imm)
 }
 void LHU(int rd, int rs1, int imm)
 {
-
+    if (rd == 0) return;
+    if (imm > ((1 << 11) - 1) || imm < -(1 << 11)) {
+        cout << "\"offset\" not in allowed range\n";
+        exit(1);
+    }
+    int content = memory[registers[rs1] + imm];
+    string binaryContent = decimalToBinary_Signed(content);
+    string sub = binaryContent.substr(16);
+    binaryContent =  "0000000000000000" + binaryContent;
+    registers[rd] = binaryToDecimal(binaryContent);
+    PC += 4;
 }
 void LBU(int rd, int rs1, int imm)
 {
