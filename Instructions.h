@@ -1,4 +1,5 @@
 #include <iostream>
+#include <map>
 using namespace std;
 
 #define ll long long
@@ -6,32 +7,38 @@ using namespace std;
 
 inline int PC = 0;                 // program counter
 inline int registers[32] = {0};    // initial value of all registers is 0
+inline map<int,int> memory;        // {address, value}
 
 // R-type   
-void ADD (int rd, int rs1, int rs2);
-void SUB (int rd, int rs1, int rs2);
-void AND (int rd, int rs1, int rs2);
-void OR (int rd, int rs1, int rs2);
-void XOR (int rd, int rs1, int rs2);
-void SLL (int rd, int rs1, int rs2);
-void SRL (int rd, int rs1, int rs2);
+void ADD (int rd, int rs1, int rs2);    // done
+void SUB (int rd, int rs1, int rs2);    // done
+void AND (int rd, int rs1, int rs2);    // done
+void OR (int rd, int rs1, int rs2);     // done
+void XOR (int rd, int rs1, int rs2);    // done
+void SLL (int rd, int rs1, int rs2);    // done
+void SRL (int rd, int rs1, int rs2);    // done
 void SRA (int rd, int rs1, int rs2);
 void SLT (int rd, int rs1, int rs2);
 void SLTU (int rd, int rs1, int rs2);
 
 // I-type
-void ADDI (int rd, int rs1, int imm);
-void ANDI (int rd, int rs1, int imm);
-void ORI (int rd, int rs1, int imm);
-void XORI (int rd, int rs1, int imm);
+void ADDI (int rd, int rs1, int imm);   // done
+void ANDI (int rd, int rs1, int imm);   // done
+void ORI (int rd, int rs1, int imm);    // done
+void XORI (int rd, int rs1, int imm);   // done
 void SLLI (int rd, int rs1, int imm);
 void SRLI (int rd, int rs1, int imm);
 void SRAI (int rd, int rs1, int imm);
 void JALR (int rd, int rs1, int imm);
-void LW (int rd, int rs1, int imm);
-void LH (int rd, int rs1, int imm);
-void LB (int rd, int rs1, int imm);
-void LHU (int rd, int rs1, int imm);
-void LBU (int rd, int rs1, int imm);
+void LW (int rd, int base, int offset); // done
+void LH (int rd, int base, int offset);
+void LB (int rd, int base, int offset);
+void LHU (int rd, int base, int offset);
+void LBU (int rd, int base, int offset);
 void SLTI (int rd, int rs1, int imm);
 void SLTIU (int rd, int rs1, int imm);
+
+// S-type
+void SW (int rs1, int base, int offset); // done
+void SH (int rs1, int base, int offset);
+void SB (int rs1, int base, int offset);
