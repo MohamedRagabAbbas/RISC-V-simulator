@@ -21,6 +21,7 @@ string regNumToName(int);    // x0 -> zero
 string lowercase(string); // lower-case all instruction words as they are case-insensitive (account for user's choice)
 void populateParantheses();
 string handleParantheses(string);
+void assignAddressToInstruction(vector<string> &, int &i);
 
 // file handling
 
@@ -31,7 +32,7 @@ void parse(vector<string> &); // transform comma separated string to vector - ad
 
 // printing functions
 
-void printInstruction(vector<string>, int);
+void printInstruction(vector<string>);
 void printRegisterContents();
 void printMemoryContents();
 void printInstructionsTest(vector<string> &);
@@ -87,7 +88,33 @@ int main()
 //    }
 //    cout << addressOfLabel["loop1"] << "\n";
     
-    while(1) run_program(addressToInstruction[PC]);
+    cout << "\n";
+    while(1) {
+        cout << "Instruction under execution: ";
+        printInstruction(addressToInstruction[PC]);
+        cout << "Program Counter: " << PC << "\n\n";
+        run_program(addressToInstruction[PC]);
+        printRegisterContents();
+        printMemoryContents();
+        cout << "-------------------------------------------------------\n";
+    }
+}
+
+void printInstruction(vector<string> s)
+{
+    if(s.size() == 1) cout << s[0];
+    else if(hasParantheses[s[0]]){
+        cout << s[0] << " " << s[1] << ", " << s[3] << "(" << s[2] << ")";
+    }
+    else if (s.size() == 3){
+        cout << s[0] << " " << s[1] << ", " << s[2];
+
+    }
+    else if (s.size() == 4){
+        cout << s[0] << " " << s[1] << ", " << s[2] << ", " << s[3];
+
+    }
+    cout << "\n\n";
 }
 
 bool check_address(ll address)
@@ -221,7 +248,7 @@ void parse(vector<string> &instruction)
     vector<string> parsed_instruction;
     
     string word = "";
-    int i = -0;
+    int i = 0;
     for(string s : instruction){
         for(char c : s){
             if(c != ','){
@@ -232,18 +259,22 @@ void parse(vector<string> &instruction)
                 word = "";
             }
         }
-      
-        if(parsed_instruction.size() == 1 && (parsed_instruction[0] != "ecall" && parsed_instruction[0] != "ebreak" && parsed_instruction[0] != "fence")) {
-            parsed_instruction[0].pop_back();
-            addressOfLabel[parsed_instruction[0]] = PC + (4 * i);
-        }
-        else {
-            addressToInstruction[PC + (4 * i)] = parsed_instruction;
-            i++;
-        }
+        assignAddressToInstruction(parsed_instruction, i);
         parsed_instruction.clear();
     }
     
+}
+
+void assignAddressToInstruction(vector<string> &parsed_instruction, int &i)
+{
+    if(parsed_instruction.size() == 1 && (parsed_instruction[0] != "ecall" && parsed_instruction[0] != "ebreak" && parsed_instruction[0] != "fence")) {
+        parsed_instruction[0].pop_back();
+        addressOfLabel[parsed_instruction[0]] = PC + (4 * i);
+    }
+    else {
+        addressToInstruction[PC + (4 * i)] = parsed_instruction;
+        i++;
+    }
 }
 
 void run_program(vector<string> v){
@@ -340,8 +371,6 @@ void run_program(vector<string> v){
         exit(1);
     }
     //printInstruction(v, i++);
-    printRegisterContents();
-    printMemoryContents();
 }
 
 int find_reg(string reg)
@@ -450,24 +479,6 @@ void printInstructionsTest(vector<string> & cleaned_instructions)
 
 }
 
-void printInstruction(vector<string> v, int i)
-{
-    cout << "Instruction " << i << ": ";
-    
-    if(v.size() == 1){
-        cout << v[0] << "\n\n";
-    }
-    else if(v.size() == 2){
-        cout << v[0] << " " << v[1] << "\n\n";
-    }
-    else if(v.size() == 3){
-        cout << v[0] << " " << v[1] << ", " << v[2] << "\n\n";
-    }
-    else if(v.size() == 4){
-        cout << v[0] << " " << v[1] << ", " << v[2] << ", " << v[3] << "\n\n";
-    }
-}
-
 void printRegisterContents()
 {
     cout << "\t\t\t  Registers\n";
@@ -480,12 +491,11 @@ void printRegisterContents()
         cout << setw(13) << "|";
         cout << registers[i] << "\n";
     }
-    cout << "\nProgram Counter: " << PC << "\n\n";
 }
 
 void printMemoryContents()
 {
-    cout << "-------- Memory --------\n\n";
+    cout << "\n----------Memory----------:\n\n";
     for(auto u : memory){
         cout << "Address: " << u.first << "\t\t" << "Memory: " << u.second << "\n";
     }
