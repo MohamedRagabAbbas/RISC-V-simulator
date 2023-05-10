@@ -68,3 +68,7 @@ void BGE(int rs1, int rs2, string label);
 void BGE(int rs1, int rs2, int offset);
 void BGEU(int rs1, int rs2, string label);
 void BGEU(int rs1, int rs2, int offset);
+
+// U-type
+void LUI(int rd, int imm);
+void AUIPC(int rd, int imm);

@@ -27,7 +27,7 @@ void twosComplement(string& binary)
     }
 }
 
-string decimalToBinary_Signed(int decimal)
+string decimalToBinary_Signed(int decimal,int n=32)
 {
     bool isNegative = 0;
     if (decimal < 0)
@@ -42,7 +42,7 @@ string decimalToBinary_Signed(int decimal)
         decimal /= 2;
     }
     reverse(r.begin(), r.end());
-    while (r.length() != 32)
+    while (r.length() != n)
         r.insert(r.begin(), '0');
     if (isNegative)
         twosComplement(r);
@@ -365,4 +365,16 @@ void BEQ(int rs1, int rs2, string label)
     else {
         PC += 4;
     }
+}
+
+
+// U-type
+void LUI(int rd, int imm)
+{
+    string binaryContent = decimalToBinary_Signed(imm,20);
+    string binaryContent_rd = decimalToBinary_Signed(registers[rd]);
+    string sub_rd = binaryContent_rd.substr(20);
+    registers[rd] = binaryToDecimal(binaryContent + sub_rd);
+    //cout << "I am here" << binaryContent << " next  " << binaryContent_rd << endl;
+    PC += 4;
 }

@@ -1,1 +1,10 @@
-﻿  Assembly.vcxproj -> D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\x64\Debug\Assembly.exe
+﻿  Instructions.cpp
+D:\Semesters\Spring2023\Assembly\Assignments\Project1\RISC-V-simulator\Assembly\Instructions.cpp(21,5): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Semesters\Spring2023\Assembly\Assignments\Project1\RISC-V-simulator\Assembly\Instructions.cpp(54,30): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Semesters\Spring2023\Assembly\Assignments\Project1\RISC-V-simulator\Assembly\Instructions.cpp(57,26): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+D:\Semesters\Spring2023\Assembly\Assignments\Project1\RISC-V-simulator\Assembly\Instructions.cpp(311,36): warning C4018: '<': signed/unsigned mismatch
+  main.cpp
+D:\Semesters\Spring2023\Assembly\Assignments\Project1\RISC-V-simulator\Assembly\main.cpp(107,15): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+D:\Semesters\Spring2023\Assembly\Assignments\Project1\RISC-V-simulator\Assembly\main.cpp(280,15): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+  Generating Code...
+  Assembly.vcxproj -> D:\Semesters\Spring2023\Assembly\Assignments\Project1\RISC-V-simulator\x64\Debug\Assembly.exe

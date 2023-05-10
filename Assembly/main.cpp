@@ -337,35 +337,39 @@ void run_program() {
         LW(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
     }
     else if (PI[index][0] == "lh") {
-
+        LH(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
     }
     else if (PI[index][0] == "lb") {
-
+        LB(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
     }
     else if (PI[index][0] == "lhu") {
-
+        LHU(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
     }
     else if (PI[index][0] == "lbu") {
-
+        LBU(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
     }
     else if (PI[index][0] == "slti") {
-
+        SLTI(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
     }
     else if (PI[index][0] == "sltiu") {
-
+        SLTIU(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
     }
     else if (PI[index][0] == "sw") {
         SW(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
     }
     else if (PI[index][0] == "sh") {
-
+        SH(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
     }
     else if (PI[index][0] == "sb") {
-
+        SB(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
     }
     else if (PI[index][0] == "beq") {
         BEQ(find_reg(PI[index][1]), find_reg(PI[index][2]), PI[index][3]);
     }
+    else if (PI[index][0] == "lui") {
+        LUI(find_reg(PI[index][1]), stoi(PI[index][2]));
+    }
+
     else if (PI[index][0] == "ecall" || PI[index][0] == "ebreak" || PI[index][0] == "fence") {
         cout << "Terminating Program";
         exit(1);
