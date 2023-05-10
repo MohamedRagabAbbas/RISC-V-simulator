@@ -278,7 +278,17 @@ void LHU(int rd, int rs1, int imm)
 }
 void LBU(int rd, int rs1, int imm)
 {
-
+    if (rd == 0) return;
+    if (imm > ((1 << 11) - 1) || imm < -(1 << 11)) {
+        cout << "\"offset\" not in allowed range\n";
+        exit(1);
+    }
+    int content = memory[registers[rs1] + imm];
+    string binaryContent = decimalToBinary_Signed(content);
+    string sub = binaryContent.substr(24);
+    binaryContent = "000000000000000000000000" + binaryContent;
+    registers[rd] = binaryToDecimal(binaryContent);
+    PC += 4;
 }
 void SLTI(int rd, int rs1, int imm)
 {
