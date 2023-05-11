@@ -89,40 +89,65 @@ int binaryToDecimal(string binary) {
 
 void ADD(int rd, int rs1, int rs2)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     registers[rd] = registers[rs1] + registers[rs2];
     PC += 4;
 }
 void SUB(int rd, int rs1, int rs2)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     registers[rd] = registers[rs1] - registers[rs2];
     PC += 4;
 }
 void AND(int rd, int rs1, int rs2)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     registers[rd] = registers[rs1] & registers[rs2];
     PC += 4;
 }
 void OR(int rd, int rs1, int rs2)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     registers[rd] = registers[rs1] | registers[rs2];
     PC += 4;
 }
 void XOR(int rd, int rs1, int rs2)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     registers[rd] = registers[rs1] ^ registers[rs2];
     PC += 4;
 }
 void SLL(int rd, int rs1, int rs2)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     int shift_amount = registers[rs2];
    /* if (shift_amount > 31 || shift_amount < 0) {
         cout << "Left shift amount " << "\"" << shift_amount << "\" is not in range\n";
+                PC += 4;
         exit(1);
     }*/
     registers[rd] = registers[rs1] << registers[rs2];
@@ -130,11 +155,16 @@ void SLL(int rd, int rs1, int rs2)
 }
 void SRL(int rd, int rs1, int rs2)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
 
     int shift_amount = registers[rs2];
     //if (shift_amount > 31 || shift_amount < 0) {
     //    cout << "Right shift amount " << "\"" << shift_amount << "\" is not in range\n";
+    //         PC += 4;
     //    exit(1);
     //}
 
@@ -143,11 +173,16 @@ void SRL(int rd, int rs1, int rs2)
 }
 void SRA(int rd, int rs1, int rs2)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
 
     int shift_amount = registers[rs2];
     //if (shift_amount > 31 || shift_amount < 0) {
     //    cout << "Right shift amount " << "\"" << shift_amount << "\" is not in range\n";
+    //         PC += 4;
     //    exit(1);
     //}
 
@@ -157,14 +192,22 @@ void SRA(int rd, int rs1, int rs2)
 }
 void SLT(int rd, int rs1, int rs2)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     registers[rd] = (registers[rs1] < registers[rs2]) ? 1 : 0;
     PC += 4;
 
 }
 void SLTU(int rd, int rs1, int rs2)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     unsigned int x = registers[rs2];
     registers[rd] = registers[rs1] < x;
     PC += 4;
@@ -174,9 +217,14 @@ void SLTU(int rd, int rs1, int rs2)
 // I-type
 void ADDI(int rd, int rs1, int imm)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     if (imm > ((1 << 11) - 1) || imm < -(1 << 11)) {
         cout << "\"imm\" not in allowed range\n";
+        PC += 4;
         exit(1);
     }
     if (rd == 2 && rs1 == 2)
@@ -202,17 +250,27 @@ void ANDI(int rd, int rs1, int imm)
 {
     if (imm > ((1 << 11) - 1) || imm < -(1 << 11)) {
         cout << "\"imm\" not in allowed range\n";
+        PC += 4;
         exit(1);
     }
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     registers[rd] = registers[rs1] & imm;
     PC += 4;
 }
 void ORI(int rd, int rs1, int imm)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     if (imm > ((1 << 11) - 1) || imm < -(1 << 11)) {
         cout << "\"imm\" not in allowed range\n";
+        PC += 4;
         exit(1);
     }
     registers[rd] = registers[rs1] | imm;
@@ -220,9 +278,14 @@ void ORI(int rd, int rs1, int imm)
 }
 void XORI(int rd, int rs1, int imm)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     if (imm > ((1 << 11) - 1) || imm < -(1 << 11)) {
         cout << "\"imm\" not in allowed range\n";
+        PC += 4;
         exit(1);
     }
     registers[rd] = registers[rs1] ^ imm;
@@ -230,10 +293,15 @@ void XORI(int rd, int rs1, int imm)
 }
 void SLLI(int rd, int rs1, int imm)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     int shift_amount = imm;
     if (shift_amount > 31 || shift_amount < 0) {
         cout << "Left shift amount " << "\"" << shift_amount << "\" is not in range\n";
+        PC += 4;
         exit(1);
     }
     registers[rd] = registers[rs1] << imm;
@@ -241,10 +309,15 @@ void SLLI(int rd, int rs1, int imm)
 }
 void SRLI(int rd, int rs1, int imm)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     int shift_amount = imm;
     if (shift_amount > 31 || shift_amount < 0) {
         cout << "Right shift amount " << "\"" << shift_amount << "\" is not in range\n";
+        PC += 4;
         exit(1);
     }
     registers[rd] = registers[rs1] >> imm;
@@ -252,10 +325,15 @@ void SRLI(int rd, int rs1, int imm)
 }
 void SRAI(int rd, int rs1, int imm)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     int shift_amount = imm;
     if (shift_amount > 31 || shift_amount < 0) {
         cout << "Right shift amount " << "\"" << shift_amount << "\" is not in range\n";
+        PC += 4;
         exit(1);
     }
     registers[rd] = registers[rs1] >> imm;
@@ -273,9 +351,14 @@ void JALR(int rd, int rs1, int imm)
 }
 void LW(int rd, int rs1, int imm)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     if (imm > ((1 << 11) - 1) || imm < -(1 << 11)) {
         cout << "\"offset\" not in allowed range\n";
+        PC += 4;
         exit(1);
     }
     if (rs1 == 2)
@@ -283,6 +366,7 @@ void LW(int rd, int rs1, int imm)
         if (imm % 4 != 0)
         {
             cout << "the offset is not in the boundry..." << endl;
+            PC += 4;
             return;
         }
         registers[rs1]= SP[imm / 4];
@@ -293,9 +377,14 @@ void LW(int rd, int rs1, int imm)
 }
 void LH(int rd, int rs1, int imm)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     if (imm > ((1 << 11) - 1) || imm < -(1 << 11)) {
         cout << "\"offset\" not in allowed range\n";
+        PC += 4;
         exit(1);
     }
     int content = memory[registers[rs1] + imm];
@@ -307,7 +396,11 @@ void LH(int rd, int rs1, int imm)
 }
 void LB(int rd, int rs1, int imm)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     if (imm > ((1 << 11) - 1) || imm < -(1 << 11)) {
         cout << "\"offset\" not in allowed range\n";
         exit(1);
@@ -322,9 +415,14 @@ void LB(int rd, int rs1, int imm)
 }
 void LHU(int rd, int rs1, int imm)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     if (imm > ((1 << 11) - 1) || imm < -(1 << 11)) {
         cout << "\"offset\" not in allowed range\n";
+        PC += 4;
         exit(1);
     }
     int content = memory[registers[rs1] + imm];
@@ -336,9 +434,14 @@ void LHU(int rd, int rs1, int imm)
 }
 void LBU(int rd, int rs1, int imm)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     if (imm > ((1 << 11) - 1) || imm < -(1 << 11)) {
         cout << "\"offset\" not in allowed range\n";
+        PC += 4;
         exit(1);
     }
     int content = memory[registers[rs1] + imm];
@@ -350,9 +453,14 @@ void LBU(int rd, int rs1, int imm)
 }
 void SLTI(int rd, int rs1, int imm)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     if (imm > ((1 << 11) - 1) || imm < -(1 << 11)) {
         cout << "\"offset\" not in allowed range\n";
+        PC += 4;
         exit(1);
     }
     registers[rd] = registers[rs1] < imm;
@@ -360,9 +468,14 @@ void SLTI(int rd, int rs1, int imm)
 }
 void SLTIU(int rd, int rs1, int imm)
 {
-    if (rd == 0) return;
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     if (imm > ((1 << 11) - 1) || imm < -(1 << 11)) {
         cout << "\"offset\" not in allowed range\n";
+        PC += 4;
         exit(1);
     }
     unsigned int imm_unsigned = imm;
@@ -374,9 +487,9 @@ void SLTIU(int rd, int rs1, int imm)
 
 void SW(int rs1, int base, int offset)
 {
-    if (base == 0) return;
     if (offset > ((1 << 11) - 1) || offset < -(1 << 11)) {
         cout << "\"offset\" not in allowed range\n";
+        PC += 4;
         exit(1);
     }
     if (base == 2)
@@ -387,6 +500,7 @@ void SW(int rs1, int base, int offset)
             return;
         }
         SP[offset / 4] = registers[rs1];
+        PC += 4;
         return;
     }
     memory[registers[base] + offset] = registers[rs1];
@@ -394,9 +508,10 @@ void SW(int rs1, int base, int offset)
 }
 void SH(int rs1, int base, int offset)
 {
-    if (base == 0) return;
+
     if (offset > ((1 << 11) - 1) || offset < -(1 << 11)) {
         cout << "\"offset\" not in allowed range\n";
+        PC += 4;
         exit(1);
     }
     int content = registers[rs1];
@@ -406,10 +521,11 @@ void SH(int rs1, int base, int offset)
 }
 void SB(int rs1, int base, int offset)
 {
-    if (base == 0) return;
+
     if (offset > ((1 << 11) - 1) || offset < -(1 << 11)) 
     {
         cout << "\"offset\" not in allowed range\n";
+        PC += 4;
         exit(1);
     }
     int content = registers[rs1];
@@ -427,6 +543,7 @@ void BEQ(int rs1, int rs2, string label)
         }
         else {
             cout << "Label not found\n";
+            PC += 4;
             exit(1);
         }
     }
@@ -445,6 +562,7 @@ void BNE(int rs1, int rs2, string label)
         }
         else {
             cout << "Label not found\n";
+            PC += 4;
             exit(1);
         }
     }
@@ -462,6 +580,7 @@ void BLT(int rs1, int rs2, string label)
         }
         else {
             cout << "Label not found\n";
+            PC += 4;
             exit(1);
         }
     }
@@ -477,8 +596,8 @@ void BLTU(int rs1, int rs2, string label) {
             PC = labelAddress[label];
         }
         else {
-            cout << "label: " << label<<'\n';
             cout << "Label not found\n";
+            PC += 4;
             exit(1);
         }
     }
@@ -493,6 +612,7 @@ void BGE(int rs1, int rs2, string label) {
         }
         else {
             cout << "Label not found\n";
+            PC += 4;
             exit(1);
         }
     }
@@ -508,6 +628,7 @@ void BGEU(int rs1, int rs2, string label) {
         }
         else {
             cout << "Label not found\n";
+            PC += 4;
             exit(1);
         }
     }
@@ -519,6 +640,11 @@ void BGEU(int rs1, int rs2, string label) {
 // U-type
 void LUI(int rd, int imm)
 {
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     string binaryContent = decimalToBinary_Signed(imm, 20);
     if (binaryContent.length() > 20)
         binaryContent = binaryContent.substr(12);
@@ -530,6 +656,11 @@ void LUI(int rd, int imm)
 }
 void AUIPC(int rd, int imm)
 {
+    if (rd == 0)
+    {
+        PC += 4;
+        return;
+    }
     string binaryContent = decimalToBinary_Signed(imm, 20);
     if (binaryContent.length() > 20)
         binaryContent = binaryContent.substr(0, 20);
