@@ -77,8 +77,8 @@ int main()
 
 
     populateParantheses();
-    vector<string> cleaned_instructions = clean();
-    parse(cleaned_instructions);
+    vector<string> cleaned_instruction = clean();
+    parse(cleaned_instruction);
 
     //printInstructionsTest(cleaned_instructions);
 
@@ -216,8 +216,15 @@ vector<string> clean()
 
     while (getline(instructionsInput, line)) {
         stringstream str(line);
+
+
         getline(str, word, ' ');
         if (word.size() == 0) continue;          // handling blank space
+        if (line[line.length() - 1] == ':') {   //handling labels
+            instructions.push_back(word+',');
+            continue;
+        }
+        
         word = lowercase(word);
         single_instruction += word + ',';
         while (getline(str, word, ',')) {
@@ -365,6 +372,21 @@ void run_program() {
     }
     else if (PI[index][0] == "beq") {
         BEQ(find_reg(PI[index][1]), find_reg(PI[index][2]), PI[index][3]);
+    }
+    else if (PI[index][0] == "bne") {
+        BNE(find_reg(PI[index][1]), find_reg(PI[index][2]), PI[index][3]);
+    }
+    else if (PI[index][0] == "blt") {
+        BLT(find_reg(PI[index][1]), find_reg(PI[index][2]), PI[index][3]);
+    }
+    else if (PI[index][0] == "bltu") {
+        BLTU(find_reg(PI[index][1]), find_reg(PI[index][2]), PI[index][3]);
+    }
+    else if (PI[index][0] == "bge") {
+        BGE(find_reg(PI[index][1]), find_reg(PI[index][2]), PI[index][3]);
+    }
+    else if (PI[index][0] == "bgeu") {
+        BGEU(find_reg(PI[index][1]), find_reg(PI[index][2]), PI[index][3]);
     }
     else if (PI[index][0] == "lui") {
         LUI(find_reg(PI[index][1]), stoi(PI[index][2]));

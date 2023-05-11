@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 #include "Instructions.h"
@@ -14,6 +15,32 @@ int PC = 0;                 // program counter
 int registers[32] = { 0 };    // initial value of all registers is 0
 map<int, int> memory;        // {address, value}
 map<string, int> labelAddress;
+
+//Utility functions
+
+void print(map<string, int>& m) {
+    cout << "Size: " << m.size() << endl;
+    for (auto& pr : m) {
+        cout << pr.first << " " << pr.second << endl;
+    }
+}
+void print(vector<vector<string>> v)
+{
+    for (int i = 0; i < v.size(); i++)
+    {
+        cout << "Line " << i + 1 << ": ";
+        for (int j = 0; j < v[i].size(); j++)
+        {
+            cout << setw(10) << v[i][j];
+        }
+        cout << endl;
+    }
+}
+void print(vector<string> v) {
+    for (int i = 0; i < v.size(); i++) {
+        cout << v[i] << endl;
+    }
+}
 
 void twosComplement(string& binary)
 {
@@ -137,7 +164,6 @@ void SLT(int rd, int rs1, int rs2)
 }
 void SLTU(int rd, int rs1, int rs2)
 {
-    if (rd == 0) return;
     if (rd == 0) return;
     registers[rd] = (registers[rs1] < registers[rs2]) ? 1 : 0;
     PC += 4;
@@ -353,7 +379,6 @@ void SB(int rs1, int base, int offset)
 // B-type
 void BEQ(int rs1, int rs2, string label)
 {
-
     if (registers[rs1] == registers[rs2]) {
         if (labelAddress.count(label)) {
             PC = labelAddress[label];
@@ -370,8 +395,9 @@ void BEQ(int rs1, int rs2, string label)
 
 void BNE(int rs1, int rs2, string label)
 {
-
+    cout << "inside BNE\n";
     if (registers[rs1] != registers[rs2]) {
+        cout << "i am inside if\n";
         if (labelAddress.count(label)) {
             PC = labelAddress[label];
         }
@@ -381,7 +407,9 @@ void BNE(int rs1, int rs2, string label)
         }
     }
     else {
+        cout << "i am here\n";
         PC += 4;
+        
     }
 }
 void BLT(int rs1, int rs2, string label) 
@@ -399,7 +427,52 @@ void BLT(int rs1, int rs2, string label)
         PC += 4;
     }
 }
+void BLTU(int rs1, int rs2, string label) {
 
+    unsigned int rst_unsigned = registers[rs2];
+    if (registers[rs1] < rst_unsigned) {
+        if (labelAddress.count(label)) {
+            PC = labelAddress[label];
+        }
+        else {
+            cout << "label: " << label<<'\n';
+            cout << "Label not found\n";
+            exit(1);
+        }
+    }
+    else {
+        PC += 4;
+    }
+}
+void BGE(int rs1, int rs2, string label) {
+    if (registers[rs1] >= registers[rs2]) {
+        if (labelAddress.count(label)) {
+            PC = labelAddress[label];
+        }
+        else {
+            cout << "Label not found\n";
+            exit(1);
+        }
+    }
+    else {
+        PC += 4;
+    }
+}
+void BGEU(int rs1, int rs2, string label) {
+    unsigned int rst_unsigned = registers[rs2];
+    if (registers[rs1] >= rst_unsigned) {
+        if (labelAddress.count(label)) {
+            PC = labelAddress[label];
+        }
+        else {
+            cout << "Label not found\n";
+            exit(1);
+        }
+    }
+    else {
+        PC += 4;
+    }
+}
 
 // U-type
 void LUI(int rd, int imm)

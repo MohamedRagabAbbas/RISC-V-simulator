@@ -1,0 +1,13 @@
+﻿  Instructions.cpp
+D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\Assembly\Instructions.cpp(48,5): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\Assembly\Instructions.cpp(81,30): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\Assembly\Instructions.cpp(84,26): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\Assembly\Instructions.cpp(338,36): warning C4018: '<': signed/unsigned mismatch
+D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\Assembly\Instructions.cpp(433,24): warning C4018: '<': signed/unsigned mismatch
+D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\Assembly\Instructions.cpp(463,24): warning C4018: '>=': signed/unsigned mismatch
+  Generating code
+  2 of 736 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Assembly.vcxproj -> D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\x64\Release\Assembly.exe

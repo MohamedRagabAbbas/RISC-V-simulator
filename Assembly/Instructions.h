@@ -16,6 +16,10 @@ extern int registers[32];   // initial value of all registers is 0
 extern map<int, int> memory;        // {address, value}
 extern map<string, int> labelAddress;
 
+//Utility functions
+void print(map<string, int>& m);
+void print(vector<vector<string>> v);
+void print(vector<string> v);
 /*
  IMPORTANT:
  Take care of signed/unsigned

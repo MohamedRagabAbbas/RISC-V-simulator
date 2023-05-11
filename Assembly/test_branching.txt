@@ -1,0 +1,16 @@
+addi t0, zero, 100
+addi t1, zero, -1
+bltu t0, t1, L1
+ebreak
+L1:
+addi t0, zero, 2
+addi t1, zero, 2
+beq t1, t0, L2
+ebreak
+L2:
+bne t0, t1, L3
+ebreak
+L3:
+addi s0, zero, 1
+ebreak
+

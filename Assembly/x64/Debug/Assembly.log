@@ -1,6 +1,8 @@
 ﻿  Instructions.cpp
-D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\Assembly\Instructions.cpp(21,5): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\Assembly\Instructions.cpp(54,30): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\Assembly\Instructions.cpp(57,26): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
-D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\Assembly\Instructions.cpp(312,36): warning C4018: '<': signed/unsigned mismatch
-  Assembly.vcxproj -> D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\x64\Debug\Assembly.exe
+D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\Assembly\Instructions.cpp(48,5): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\Assembly\Instructions.cpp(81,30): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\Assembly\Instructions.cpp(84,26): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\Assembly\Instructions.cpp(338,36): warning C4018: '<': signed/unsigned mismatch
+D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\Assembly\Instructions.cpp(430,24): warning C4018: '<': signed/unsigned mismatch
+D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\Assembly\Instructions.cpp(460,24): warning C4018: '>=': signed/unsigned mismatch
+LINK : fatal error LNK1104: cannot open file 'D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\x64\Debug\Assembly.exe'
