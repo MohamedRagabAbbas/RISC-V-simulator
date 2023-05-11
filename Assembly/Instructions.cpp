@@ -15,7 +15,7 @@ int PC = 0;                 // program counter
 int registers[32] = { 0 };    // initial value of all registers is 0
 map<int, int> memory;        // {address, value}
 map<string, int> labelAddress;
-
+vector<int>SP;
 //Utility functions
 
 void print(map<string, int>& m) {
@@ -169,8 +169,6 @@ void SLTU(int rd, int rs1, int rs2)
     PC += 4;
 }
 
-
-
 // I-type
 void ADDI(int rd, int rs1, int imm)
 {
@@ -178,6 +176,22 @@ void ADDI(int rd, int rs1, int imm)
     if (imm > ((1 << 11) - 1) || imm < -(1 << 11)) {
         cout << "\"imm\" not in allowed range\n";
         exit(1);
+    }
+    if (rd == 2 && rs1 == 2)
+    {
+        if (imm < 0)
+        {
+            int x = imm / -4;
+            for(int i=0;i<x;i++)
+             SP.insert(SP.begin(), 0);
+        }
+        else
+        {
+            int x = imm / 4;
+            for (int i = 0; i < x; i++)
+                SP.insert(SP.begin(), 0);
+            SP.erase(SP.begin(), SP.begin() + 1);
+        }
     }
     registers[rd] = registers[rs1] + imm;
     PC += 4;
@@ -188,6 +202,7 @@ void ANDI(int rd, int rs1, int imm)
         cout << "\"imm\" not in allowed range\n";
         exit(1);
     }
+
     if (rd == 0) return;
     registers[rd] = registers[rs1] & imm;
     PC += 4;
@@ -261,6 +276,16 @@ void LW(int rd, int rs1, int imm)
     if (imm > ((1 << 11) - 1) || imm < -(1 << 11)) {
         cout << "\"offset\" not in allowed range\n";
         exit(1);
+    }
+    if (rs1 == 2)
+    {
+        if (imm % 4 != 0)
+        {
+            cout << "the offset is not in the boundry..." << endl;
+            return;
+        }
+        registers[rs1]= SP[imm / 4];
+        return;
     }
     registers[rd] = memory[registers[rs1] + imm];
     PC += 4;
@@ -352,6 +377,16 @@ void SW(int rs1, int base, int offset)
     if (offset > ((1 << 11) - 1) || offset < -(1 << 11)) {
         cout << "\"offset\" not in allowed range\n";
         exit(1);
+    }
+    if (base == 2)
+    {
+        if (offset % 4 != 0)
+        {
+            cout << "the offset is not in the boundry..." << endl;
+            return;
+        }
+        SP[offset / 4] = registers[rs1];
+        return;
     }
     memory[registers[base] + offset] = registers[rs1];
     PC += 4;
