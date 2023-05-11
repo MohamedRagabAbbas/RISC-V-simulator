@@ -45,7 +45,8 @@ void XORI(int rd, int rs1, int imm);   // done
 void SLLI(int rd, int rs1, int imm);   // done
 void SRLI(int rd, int rs1, int imm);   // done
 void SRAI(int rd, int rs1, int imm);   // done
-void JALR(int rd, int rs1, int imm);
+void JALR(int rd, int rs1, int imm);	//done
+void JAL(int rd, string label);
 void LW(int rd, int base, int offset); // done
 void LH(int rd, int base, int offset); // done
 void LB(int rd, int base, int offset); // done

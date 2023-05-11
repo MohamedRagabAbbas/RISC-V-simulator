@@ -337,8 +337,11 @@ void run_program() {
     else if (PI[index][0] == "srai") {
 
     }
+    else if (PI[index][0] == "jal") {
+        JAL(find_reg(PI[index][1]), PI[index][2]);
+    }
     else if (PI[index][0] == "jalr") {
-
+        JALR(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
     }
     else if (PI[index][0] == "lw") {
         LW(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
@@ -390,6 +393,9 @@ void run_program() {
     }
     else if (PI[index][0] == "lui") {
         LUI(find_reg(PI[index][1]), stoi(PI[index][2]));
+    }
+    else if (PI[index][0] == "auipc") {
+    AUIPC(find_reg(PI[index][1]), stoi(PI[index][2]));
     }
 
     else if (PI[index][0] == "ecall" || PI[index][0] == "ebreak" || PI[index][0] == "fence") {

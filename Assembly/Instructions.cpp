@@ -245,10 +245,15 @@ void SRAI(int rd, int rs1, int imm)
     registers[rd] = registers[rs1] >> imm;
     PC += 4;
 }
+void JAL(int rd, string label)
+{
+    registers[rd] = PC + 4;
+    PC = labelAddress[label];
+}
 void JALR(int rd, int rs1, int imm)
 {
-    if (rd == 0) return;
-
+    registers[rd] = PC + 4;
+    PC = registers[rs1] + imm; // return address in in register x1
 }
 void LW(int rd, int rs1, int imm)
 {
@@ -477,10 +482,20 @@ void BGEU(int rs1, int rs2, string label) {
 // U-type
 void LUI(int rd, int imm)
 {
-    string binaryContent = decimalToBinary_Signed(imm,20);
+    string binaryContent = decimalToBinary_Signed(imm, 20);
+    if (binaryContent.length() > 20)
+        binaryContent = binaryContent.substr(12);
     string binaryContent_rd = decimalToBinary_Signed(registers[rd]);
     string sub_rd = binaryContent_rd.substr(20);
     registers[rd] = binaryToDecimal(binaryContent + sub_rd);
     //cout << "I am here" << binaryContent << " next  " << binaryContent_rd << endl;
+    PC += 4;
+}
+void AUIPC(int rd, int imm)
+{
+    string binaryContent = decimalToBinary_Signed(imm, 20);
+    if (binaryContent.length() > 20)
+        binaryContent = binaryContent.substr(0, 20);
+    registers[rd] = PC + binaryToDecimal(binaryContent);
     PC += 4;
 }
