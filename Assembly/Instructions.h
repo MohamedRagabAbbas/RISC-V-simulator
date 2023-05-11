@@ -26,28 +26,28 @@ void print(vector<string> v);
  */
 
  // R-type   
-void ADD(int rd, int rs1, int rs2);    // done
-void SUB(int rd, int rs1, int rs2);    // done
-void AND(int rd, int rs1, int rs2);    // done
-void OR(int rd, int rs1, int rs2);     // done
-void XOR(int rd, int rs1, int rs2);    // done
-void SLL(int rd, int rs1, int rs2);    // done
-void SRL(int rd, int rs1, int rs2);    // done
-void SRA(int rd, int rs1, int rs2);    // done
-void SLT(int rd, int rs1, int rs2);    // done
-void SLTU(int rd, int rs1, int rs2);   // done
+void ADD(int rd, int rs1, int rs2);    // done and tested
+void SUB(int rd, int rs1, int rs2);    // done and tested
+void AND(int rd, int rs1, int rs2);    // done and tested
+void OR(int rd, int rs1, int rs2);     // done and tested
+void XOR(int rd, int rs1, int rs2);    // done and tested
+void SLL(int rd, int rs1, int rs2);    // done and tested
+void SRL(int rd, int rs1, int rs2);    // done and tested
+void SRA(int rd, int rs1, int rs2);    // done and tested
+void SLT(int rd, int rs1, int rs2);    // done and tested
+void SLTU(int rd, int rs1, int rs2);   // done and tested
 
 // I-type
-void ADDI(int rd, int rs1, int imm);   // done
-void ANDI(int rd, int rs1, int imm);   // done
-void ORI(int rd, int rs1, int imm);    // done
-void XORI(int rd, int rs1, int imm);   // done
-void SLLI(int rd, int rs1, int imm);   // done
-void SRLI(int rd, int rs1, int imm);   // done
-void SRAI(int rd, int rs1, int imm);   // done
+void ADDI(int rd, int rs1, int imm);   // done and tested
+void ANDI(int rd, int rs1, int imm);   // done and tested
+void ORI(int rd, int rs1, int imm);    // done and tested
+void XORI(int rd, int rs1, int imm);   // done and tested
+void SLLI(int rd, int rs1, int imm);   // done and tested
+void SRLI(int rd, int rs1, int imm);   // done and tested
+void SRAI(int rd, int rs1, int imm);   // done and tested
 void JALR(int rd, int rs1, int imm);	//done
-void JAL(int rd, string label);
-void LW(int rd, int base, int offset); // done
+void JAL(int rd, string label);			//done
+void LW(int rd, int base, int offset); // done 
 void LH(int rd, int base, int offset); // done
 void LB(int rd, int base, int offset); // done
 void LHU(int rd, int base, int offset); // done
@@ -61,13 +61,13 @@ void SH(int rs1, int base, int offset); // done
 void SB(int rs1, int base, int offset); // done
 
 // B-type
-void BEQ(int rs1, int rs2, string label);
-void BNE(int rs1, int rs2, string label);
-void BLT(int rs1, int rs2, string label);
-void BLTU(int rs1, int rs2, string label);
-void BGE(int rs1, int rs2, string label);
-void BGEU(int rs1, int rs2, string label);
+void BEQ(int rs1, int rs2, string label); // done
+void BNE(int rs1, int rs2, string label); // done
+void BLT(int rs1, int rs2, string label); // done
+void BLTU(int rs1, int rs2, string label); // done
+void BGE(int rs1, int rs2, string label); // done
+void BGEU(int rs1, int rs2, string label); // done
 
 // U-type
 void LUI(int rd, int imm);//done
-void AUIPC(int rd, int imm);
+void AUIPC(int rd, int imm); // done

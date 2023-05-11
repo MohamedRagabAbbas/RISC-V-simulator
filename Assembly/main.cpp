@@ -310,13 +310,13 @@ void run_program() {
         SRL(find_reg(PI[index][1]), find_reg(PI[index][2]), find_reg(PI[index][3]));
     }
     else if (PI[index][0] == "sra") {
-
+        SRL(find_reg(PI[index][1]), find_reg(PI[index][2]), find_reg(PI[index][3]));
     }
     else if (PI[index][0] == "slt") {
-
+        SLT(find_reg(PI[index][1]), find_reg(PI[index][2]), find_reg(PI[index][3]));
     }
     else if (PI[index][0] == "sltu") {
-
+        SLTU(find_reg(PI[index][1]), find_reg(PI[index][2]), find_reg(PI[index][3]));
     }
     else if (PI[index][0] == "addi") {
         ADDI(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
@@ -331,13 +331,13 @@ void run_program() {
         XORI(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
     }
     else if (PI[index][0] == "slli") {
-
+        SLLI(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
     }
     else if (PI[index][0] == "srli") {
-
+        SRLI(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
     }
     else if (PI[index][0] == "srai") {
-
+        SRAI(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
     }
     else if (PI[index][0] == "jal") {
         JAL(find_reg(PI[index][1]), PI[index][2]);
@@ -402,6 +402,10 @@ void run_program() {
 
     else if (PI[index][0] == "ecall" || PI[index][0] == "ebreak" || PI[index][0] == "fence") {
         cout << "Terminating Program";
+        PC += 4;
+        cout << "Program Counter: " << PC << "\n\n";
+        printRegisterContents();
+        printMemoryContents();
         exit(1);
     }
     //printInstruction(v, i++);
@@ -481,7 +485,6 @@ string regNumToName(int i)
     else if (i == 29) return "t4";
     else if (i == 30) return "t5";
     else if (i == 31) return "t6";
-
     return 0;
 }
 

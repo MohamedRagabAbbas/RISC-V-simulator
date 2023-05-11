@@ -121,10 +121,10 @@ void SLL(int rd, int rs1, int rs2)
 {
     if (rd == 0) return;
     int shift_amount = registers[rs2];
-    if (shift_amount > 31 || shift_amount < 0) {
+   /* if (shift_amount > 31 || shift_amount < 0) {
         cout << "Left shift amount " << "\"" << shift_amount << "\" is not in range\n";
         exit(1);
-    }
+    }*/
     registers[rd] = registers[rs1] << registers[rs2];
     PC += 4;
 }
@@ -133,10 +133,10 @@ void SRL(int rd, int rs1, int rs2)
     if (rd == 0) return;
 
     int shift_amount = registers[rs2];
-    if (shift_amount > 31 || shift_amount < 0) {
-        cout << "Right shift amount " << "\"" << shift_amount << "\" is not in range\n";
-        exit(1);
-    }
+    //if (shift_amount > 31 || shift_amount < 0) {
+    //    cout << "Right shift amount " << "\"" << shift_amount << "\" is not in range\n";
+    //    exit(1);
+    //}
 
     registers[rd] = (registers[rs1] >> registers[rs2]);
     PC += 4;
@@ -146,10 +146,10 @@ void SRA(int rd, int rs1, int rs2)
     if (rd == 0) return;
 
     int shift_amount = registers[rs2];
-    if (shift_amount > 31 || shift_amount < 0) {
-        cout << "Right shift amount " << "\"" << shift_amount << "\" is not in range\n";
-        exit(1);
-    }
+    //if (shift_amount > 31 || shift_amount < 0) {
+    //    cout << "Right shift amount " << "\"" << shift_amount << "\" is not in range\n";
+    //    exit(1);
+    //}
 
     registers[rd] = registers[rs1] >> registers[rs2];
     PC += 4;
@@ -165,8 +165,10 @@ void SLT(int rd, int rs1, int rs2)
 void SLTU(int rd, int rs1, int rs2)
 {
     if (rd == 0) return;
-    registers[rd] = (registers[rs1] < registers[rs2]) ? 1 : 0;
+    unsigned int x = registers[rs2];
+    registers[rd] = registers[rs1] < x;
     PC += 4;
+
 }
 
 // I-type
@@ -202,7 +204,6 @@ void ANDI(int rd, int rs1, int imm)
         cout << "\"imm\" not in allowed range\n";
         exit(1);
     }
-
     if (rd == 0) return;
     registers[rd] = registers[rs1] & imm;
     PC += 4;
@@ -406,7 +407,8 @@ void SH(int rs1, int base, int offset)
 void SB(int rs1, int base, int offset)
 {
     if (base == 0) return;
-    if (offset > ((1 << 11) - 1) || offset < -(1 << 11)) {
+    if (offset > ((1 << 11) - 1) || offset < -(1 << 11)) 
+    {
         cout << "\"offset\" not in allowed range\n";
         exit(1);
     }
