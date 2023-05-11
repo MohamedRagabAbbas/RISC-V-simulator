@@ -1,1 +1,9 @@
-﻿  Assembly.vcxproj -> D:\Semesters\Spring2023\Assembly\RISC-V-simulator\x64\Release\Assembly.exe
+﻿  main.cpp
+D:\Semesters\Spring2023\Assembly\RISC-V-simulator\Assembly\main.cpp(107,15): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+D:\Semesters\Spring2023\Assembly\RISC-V-simulator\Assembly\main.cpp(293,15): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+  Generating code
+  3 of 820 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    44 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Assembly.vcxproj -> D:\Semesters\Spring2023\Assembly\RISC-V-simulator\x64\Release\Assembly.exe

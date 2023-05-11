@@ -1,0 +1,17 @@
+main:
+addi a0,x0,5
+addi a1,x0,2
+jal ra,Mul
+ebreak
+Mul:
+addi t0,x0,0
+addi t1,x0,0
+startLoop:
+beq t0,a1,return 
+add t1,t1,a0
+addi t0,t0,1
+beq x0,x0,startLoop
+return:
+addi a0,t1,0
+jalr x0,0(ra)
+ebreak

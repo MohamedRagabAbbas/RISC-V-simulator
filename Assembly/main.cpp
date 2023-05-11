@@ -192,6 +192,7 @@ void populateParantheses()
     hasParantheses["sb"] = 1;
     hasParantheses["sh"] = 1;
     hasParantheses["sw"] = 1;
+    hasParantheses["jalr"] = 1;
 }
 
 string handleParantheses(string s) {
