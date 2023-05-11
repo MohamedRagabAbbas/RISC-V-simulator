@@ -1,4 +1,4 @@
-addi t0,x0,15
+addi t0,x0,0x0000000f
 addi t1,x0,36
 add t2,t0,t1
 or t3,t0,t1

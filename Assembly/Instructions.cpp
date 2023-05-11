@@ -41,7 +41,40 @@ void print(vector<string> v) {
         cout << v[i] << endl;
     }
 }
+string decimalToHex(int decimal)
+{
+    stringstream ss;
+    ss << hex << decimal;
+    string res(ss.str());
+    return res;
+}
 
+int input_to_decimal(string n) {
+    int result = 0;
+    if (n[0] == '0' && n[1] == 'x')
+    {
+        for (int i = 2; i < n.length(); i++)
+        {
+            if (n[i] >= '0' && n[i] <= '9')
+            {
+                result += (n[i] - '0') * pow(16, n.length() - i - 1);
+            }
+            else if (n[i] >= 'A' && n[i] <= 'F')
+            {
+                result += (n[i] - 'A' + 10) * pow(16, n.length() - i - 1);
+            }
+            else if (n[i] >= 'a' && n[i] <= 'f')
+            {
+                result += (n[i] - 'a' + 10) * pow(16, n.length() - i - 1);
+            }
+        }
+    }
+    else
+    {
+        result = stoi(n);
+    }
+    return result;
+}
 void twosComplement(string& binary)
 {
     bool firstOne = 0;

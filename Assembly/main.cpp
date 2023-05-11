@@ -319,61 +319,61 @@ void run_program() {
         SLTU(find_reg(PI[index][1]), find_reg(PI[index][2]), find_reg(PI[index][3]));
     }
     else if (PI[index][0] == "addi") {
-        ADDI(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
+        ADDI(find_reg(PI[index][1]), find_reg(PI[index][2]), input_to_decimal(PI[index][3]));
     }
     else if (PI[index][0] == "andi") {
-        ANDI(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
+        ANDI(find_reg(PI[index][1]), find_reg(PI[index][2]), input_to_decimal(PI[index][3]));
     }
     else if (PI[index][0] == "ori") {
-        ORI(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
+        ORI(find_reg(PI[index][1]), find_reg(PI[index][2]), input_to_decimal(PI[index][3]));
     }
     else if (PI[index][0] == "xori") {
-        XORI(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
+        XORI(find_reg(PI[index][1]), find_reg(PI[index][2]), input_to_decimal(PI[index][3]));
     }
     else if (PI[index][0] == "slli") {
-        SLLI(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
+        SLLI(find_reg(PI[index][1]), find_reg(PI[index][2]), input_to_decimal(PI[index][3]));
     }
     else if (PI[index][0] == "srli") {
-        SRLI(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
+        SRLI(find_reg(PI[index][1]), find_reg(PI[index][2]), input_to_decimal(PI[index][3]));
     }
     else if (PI[index][0] == "srai") {
-        SRAI(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
+        SRAI(find_reg(PI[index][1]), find_reg(PI[index][2]), input_to_decimal(PI[index][3]));
     }
     else if (PI[index][0] == "jal") {
         JAL(find_reg(PI[index][1]), PI[index][2]);
     }
     else if (PI[index][0] == "jalr") {
-        JALR(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
+        JALR(find_reg(PI[index][1]), find_reg(PI[index][2]), input_to_decimal(PI[index][3]));
     }
     else if (PI[index][0] == "lw") {
-        LW(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
+        LW(find_reg(PI[index][1]), find_reg(PI[index][2]), input_to_decimal(PI[index][3]));
     }
     else if (PI[index][0] == "lh") {
-        LH(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
+        LH(find_reg(PI[index][1]), find_reg(PI[index][2]), input_to_decimal(PI[index][3]));
     }
     else if (PI[index][0] == "lb") {
-        LB(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
+        LB(find_reg(PI[index][1]), find_reg(PI[index][2]), input_to_decimal(PI[index][3]));
     }
     else if (PI[index][0] == "lhu") {
-        LHU(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
+        LHU(find_reg(PI[index][1]), find_reg(PI[index][2]), input_to_decimal(PI[index][3]));
     }
     else if (PI[index][0] == "lbu") {
-        LBU(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
+        LBU(find_reg(PI[index][1]), find_reg(PI[index][2]), input_to_decimal(PI[index][3]));
     }
     else if (PI[index][0] == "slti") {
-        SLTI(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
+        SLTI(find_reg(PI[index][1]), find_reg(PI[index][2]), input_to_decimal(PI[index][3]));
     }
     else if (PI[index][0] == "sltiu") {
-        SLTIU(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
+        SLTIU(find_reg(PI[index][1]), find_reg(PI[index][2]), input_to_decimal(PI[index][3]));
     }
     else if (PI[index][0] == "sw") {
-        SW(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
+        SW(find_reg(PI[index][1]), find_reg(PI[index][2]), input_to_decimal(PI[index][3]));
     }
     else if (PI[index][0] == "sh") {
-        SH(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
+        SH(find_reg(PI[index][1]), find_reg(PI[index][2]), input_to_decimal(PI[index][3]));
     }
     else if (PI[index][0] == "sb") {
-        SB(find_reg(PI[index][1]), find_reg(PI[index][2]), stoi(PI[index][3]));
+        SB(find_reg(PI[index][1]), find_reg(PI[index][2]), input_to_decimal(PI[index][3]));
     }
     else if (PI[index][0] == "beq") {
         BEQ(find_reg(PI[index][1]), find_reg(PI[index][2]), PI[index][3]);
@@ -394,10 +394,10 @@ void run_program() {
         BGEU(find_reg(PI[index][1]), find_reg(PI[index][2]), PI[index][3]);
     }
     else if (PI[index][0] == "lui") {
-        LUI(find_reg(PI[index][1]), stoi(PI[index][2]));
+        LUI(find_reg(PI[index][1]), input_to_decimal(PI[index][2]));
     }
     else if (PI[index][0] == "auipc") {
-    AUIPC(find_reg(PI[index][1]), stoi(PI[index][2]));
+        AUIPC(find_reg(PI[index][1]), input_to_decimal(PI[index][2]));
     }
 
     else if (PI[index][0] == "ecall" || PI[index][0] == "ebreak" || PI[index][0] == "fence") {
@@ -519,16 +519,19 @@ void printInstructionsTest(vector<string>& cleaned_instructions)
 void printRegisterContents()
 {
     cout << "\t\t\t  Registers\n";
-    cout << "----------------------------------------\n";
-    cout << "   Name    |    Number    |    Value    \n";
-    cout << "----------------------------------------\n";
+    cout << "-----------------------------------------------------------------\n";
+    cout << "   Name    |    Number    |    Value (decimal)   | Value (hex)   \n";
+    cout << "-----------------------------------------------------------------\n";
     for (int i = 0; i < 32; i++) {
         cout << setw(4) << regNumToName(i) << setw(8) << "|";
         cout << setw(2) << i;
         cout << setw(13) << "|";
-        cout << registers[i] << "\n";
+        cout << setw(3) << registers[i];
+        cout << setw(20) << "|";
+        cout << setw(3) << decimalToHex(registers[i]) << "\n";
     }
 }
+
 
 void printMemoryContents()
 {

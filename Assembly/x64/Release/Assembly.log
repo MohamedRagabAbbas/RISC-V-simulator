@@ -1,17 +1,1 @@
-﻿  Instructions.cpp
-D:\Semesters\Spring2023\Assembly\Assignments\Project1\RISC-V-simulator\Assembly\Instructions.cpp(48,5): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Semesters\Spring2023\Assembly\Assignments\Project1\RISC-V-simulator\Assembly\Instructions.cpp(81,30): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Semesters\Spring2023\Assembly\Assignments\Project1\RISC-V-simulator\Assembly\Instructions.cpp(84,26): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
-D:\Semesters\Spring2023\Assembly\Assignments\Project1\RISC-V-simulator\Assembly\Instructions.cpp(212,36): warning C4018: '<': signed/unsigned mismatch
-D:\Semesters\Spring2023\Assembly\Assignments\Project1\RISC-V-simulator\Assembly\Instructions.cpp(482,36): warning C4018: '<': signed/unsigned mismatch
-D:\Semesters\Spring2023\Assembly\Assignments\Project1\RISC-V-simulator\Assembly\Instructions.cpp(594,24): warning C4018: '<': signed/unsigned mismatch
-D:\Semesters\Spring2023\Assembly\Assignments\Project1\RISC-V-simulator\Assembly\Instructions.cpp(625,24): warning C4018: '>=': signed/unsigned mismatch
-  main.cpp
-D:\Semesters\Spring2023\Assembly\Assignments\Project1\RISC-V-simulator\Assembly\main.cpp(107,15): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
-D:\Semesters\Spring2023\Assembly\Assignments\Project1\RISC-V-simulator\Assembly\main.cpp(289,15): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
-  Generating code
-  57 of 808 functions ( 7.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    41 functions had inline decision re-evaluated but remain unchanged
-  Finished generating code
-  Assembly.vcxproj -> D:\Semesters\Spring2023\Assembly\Assignments\Project1\RISC-V-simulator\x64\Release\Assembly.exe
+﻿  Assembly.vcxproj -> D:\Auc Courses\spring 2023\assembly\project\RISC-V-simulator\x64\Release\Assembly.exe

@@ -4,6 +4,9 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <cmath>
+#include <sstream>
+#include <cstdlib>
 
 using namespace std;
 
@@ -20,6 +23,8 @@ extern map<string, int> labelAddress;
 void print(map<string, int>& m);
 void print(vector<vector<string>> v);
 void print(vector<string> v);
+string decimalToHex(int decimal);
+int input_to_decimal(string n);
 /*
  IMPORTANT:
  Take care of signed/unsigned
