@@ -133,6 +133,7 @@ void open_file(string file_name, int option)
             cout << "The file\"" << file_name << "\"" << "could not be found" << "\n";
             cout << "Enter the name of the assembly file with the extension (ex: assembly.txt): ";
             cin >> file_name;
+            instructionsInput.open(file_name);
         }
     }
 
@@ -142,6 +143,7 @@ void open_file(string file_name, int option)
             cout << "The file\"" << file_name << "\"" << "could not be found" << "\n";
             cout << "Enter the name of the memory file with the extension (ex: memory.txt): ";
             cin >> file_name;
+            memoryInput.open(file_name);
         }
     }
 }
