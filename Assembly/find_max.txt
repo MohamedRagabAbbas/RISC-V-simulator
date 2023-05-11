@@ -1,0 +1,42 @@
+auipc s0, 514567
+
+addi t0, zero, 3
+addi t1, zero, 1
+addi t2, zero, 4
+addi t3, zero, 2
+addi t4, zero, 5 
+addi t5, zero, 9
+
+
+sw t0, 0(s0)
+sw t1, 4(s0)
+sw t2, 8(s0)
+sw t3, 12(s0)
+sw t4, 16(s0)
+sw t5, 20(s0)
+
+
+addi s5, zero, 6
+
+lw t0, 0(s0)
+lw t1, 0(s0)
+addi t2, zero, 1
+lw t3, 0(s0)
+
+loop:
+bge t2, s5, end
+slli t4, t2, 2
+add t4, t4, s0
+lw t3, 0(t4)
+addi t2, t2, 1
+blt t1, t3, update_max
+bge t0, t3, update_min
+j loop
+update_max:
+add t1, t3, zero
+j loop
+update_min:
+add t0, t3, zero
+j loop
+end:
+ebreak

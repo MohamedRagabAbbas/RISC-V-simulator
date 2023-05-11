@@ -1,0 +1,21 @@
+auipc t0, 5
+
+addi s0, zero, 9
+
+lui s1, 0x0000067d
+addi s1, s1, -93
+
+
+addi s2, zero, 12
+
+sw s0, 0(t0)
+sw s1, 4(t0)
+sw s2, 8(t0)
+
+lb t1, 4(t0)
+lw t2, 8(t0)
+addi t0, t0, 4
+lw t3, 0(t0)
+
+ebreak
+

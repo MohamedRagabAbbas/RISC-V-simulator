@@ -53,6 +53,7 @@ int input_to_decimal(string n) {
     int result = 0;
     if (n[0] == '0' && n[1] == 'x')
     {
+        cout << "hex detected: "<<n<<'\n';
         for (int i = 2; i < n.length(); i++)
         {
             if (n[i] >= '0' && n[i] <= '9')
@@ -71,6 +72,7 @@ int input_to_decimal(string n) {
     }
     else
     {
+        cout << "decimal detected: " << n << '\n';
         result = stoi(n);
     }
     return result;
@@ -687,16 +689,30 @@ void LUI(int rd, int imm)
     //cout << "I am here" << binaryContent << " next  " << binaryContent_rd << endl;
     PC += 4;
 }
+bool check_address_data(ll address) {
+    return (address < 2 * pow(10, 9) || address >= 6 * pow(10, 9)) ? 0 : 1;
+}
 void AUIPC(int rd, int imm)
 {
     if (rd == 0)
     {
-        PC += 4;
         return;
     }
-    string binaryContent = decimalToBinary_Signed(imm, 20);
-    if (binaryContent.length() > 20)
-        binaryContent = binaryContent.substr(0, 20);
-    registers[rd] = PC + binaryToDecimal(binaryContent);
+    if (!(imm > (1 << (20 - 1)) - 1 || imm < -(1 << (20 - 1))))
+    {
+        if (check_address_data(PC + (imm << 12))) {
+            registers[rd] = PC + (imm << 12);
+        }
+        else {
+            cout << "address doesn't fall within the available data segment of 4GB";
+            exit(1);
+        }
+        
+    }
+    else
+    {
+        cout << "immediate value out of range\n";
+        exit(1);
+    }
     PC += 4;
 }

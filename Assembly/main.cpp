@@ -122,8 +122,11 @@ void printInstruction()
 
 bool check_address(ll address)
 {
-    return (address < 0 || address >((ll)1 << 32) - 1) ? 0 : 1;
+    //return (address < 0 || address >((ll)1 << 32) - 1) ? 0 : 1;
+    return (address < 0 || address >= 2 * pow(10, 9)) ? 0 : 1;
 }
+
+
 
 void open_file(string file_name, int option)
 {
