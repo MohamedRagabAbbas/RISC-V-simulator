@@ -1,9 +1,17 @@
-﻿  main.cpp
-D:\Semesters\Spring2023\Assembly\RISC-V-simulator\Assembly\main.cpp(107,15): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
-D:\Semesters\Spring2023\Assembly\RISC-V-simulator\Assembly\main.cpp(293,15): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+﻿  Instructions.cpp
+D:\Semesters\Spring2023\Assembly\RISC-V-simulator\Assembly\Instructions.cpp(62,40): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+D:\Semesters\Spring2023\Assembly\RISC-V-simulator\Assembly\Instructions.cpp(66,45): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+D:\Semesters\Spring2023\Assembly\RISC-V-simulator\Assembly\Instructions.cpp(70,45): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+D:\Semesters\Spring2023\Assembly\RISC-V-simulator\Assembly\Instructions.cpp(84,5): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Semesters\Spring2023\Assembly\RISC-V-simulator\Assembly\Instructions.cpp(117,30): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Semesters\Spring2023\Assembly\RISC-V-simulator\Assembly\Instructions.cpp(120,26): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+D:\Semesters\Spring2023\Assembly\RISC-V-simulator\Assembly\Instructions.cpp(248,36): warning C4018: '<': signed/unsigned mismatch
+D:\Semesters\Spring2023\Assembly\RISC-V-simulator\Assembly\Instructions.cpp(529,36): warning C4018: '<': signed/unsigned mismatch
+D:\Semesters\Spring2023\Assembly\RISC-V-simulator\Assembly\Instructions.cpp(643,24): warning C4018: '<': signed/unsigned mismatch
+D:\Semesters\Spring2023\Assembly\RISC-V-simulator\Assembly\Instructions.cpp(674,24): warning C4018: '>=': signed/unsigned mismatch
   Generating code
-  3 of 820 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
+  10 of 834 functions ( 1.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    44 functions had inline decision re-evaluated but remain unchanged
+    1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Assembly.vcxproj -> D:\Semesters\Spring2023\Assembly\RISC-V-simulator\x64\Release\Assembly.exe

@@ -18,6 +18,7 @@ map<string, int> labelAddress;
 vector<int>SP;
 //Utility functions
 
+
 void print(map<string, int>& m) {
     cout << "Size: " << m.size() << endl;
     for (auto& pr : m) {
@@ -274,8 +275,7 @@ void ADDI(int rd, int rs1, int imm)
         {
             int x = imm / 4;
             for (int i = 0; i < x; i++)
-                SP.insert(SP.begin(), 0);
-            SP.erase(SP.begin(), SP.begin() + 1);
+                SP.erase(SP.begin(), SP.begin() + 1);
         }
     }
     registers[rd] = registers[rs1] + imm;
@@ -376,12 +376,14 @@ void SRAI(int rd, int rs1, int imm)
 }
 void JAL(int rd, string label)
 {
-    registers[rd] = PC + 4;
+    if(rd!=0)
+        registers[rd] = PC + 4;
     PC = labelAddress[label];
 }
 void JALR(int rd, int rs1, int imm)
 {
-    registers[rd] = PC + 4;
+    if (rd != 0)
+        registers[rd] = PC + 4;
     PC = registers[rs1] + imm; // return address in in register x1
 }
 void LW(int rd, int rs1, int imm)
@@ -404,7 +406,8 @@ void LW(int rd, int rs1, int imm)
             PC += 4;
             return;
         }
-        registers[rs1]= SP[imm / 4];
+        registers[rd] = SP[imm / 4];
+        PC += 4;
         return;
     }
     registers[rd] = memory[registers[rs1] + imm];
@@ -535,6 +538,8 @@ void SW(int rs1, int base, int offset)
             return;
         }
         SP[offset / 4] = registers[rs1];
+        for (int i = 0; i < SP.size(); i++) cout << SP[i] << "   ";
+        cout << endl;
         PC += 4;
         return;
     }

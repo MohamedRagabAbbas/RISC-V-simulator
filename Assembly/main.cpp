@@ -66,6 +66,8 @@ int main()
     cout << "To load data into the memory press 1, else press 2: ";
     cin >> option;
 
+    
+
     if (option == 1) {
         string memory_file;
         cout << "Enter the name of the memory file with the extension (ex: memory.txt): ";
@@ -89,7 +91,6 @@ int main()
 //        cout << "\n";
 //    }
 //    cout << addressOfLabel["loop1"] << "\n";
-
     cout << "\n";
     while (1) {
         cout << "Instruction under execution: ";

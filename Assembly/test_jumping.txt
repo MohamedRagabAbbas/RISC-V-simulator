@@ -1,0 +1,12 @@
+Main:
+addi t0,x0,5
+jal ra,fun1
+beq x0,x0,end
+ebreak
+addi t0,x0,6
+fun1:
+addi t0,x0,7
+jalr x0,0(ra)
+addi t0,x0,8
+end:
+ebreak
