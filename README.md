@@ -15,6 +15,7 @@ This project was created for the Computer Organization and Assembly Langugage co
 * The simulator outputs the instruction itself, the program counter value, the register contents, and the memory contents after each instruction execution until the program ends.
 
 ## Group Members
+* Mohamed Abbas: https://github.com/MohamedRagabAbbas <br>
 * Omar Bahgat: https://github.com/omar-bahgat <br>
 * Youssef Mansour: https://github.com/youssef3453 <br>
-* Mohamed Abbas: https://github.com/MohamedRagabAbbas <br>
+
